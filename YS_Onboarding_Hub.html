@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Onboarding — Yarzin Sella</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #FDFFFD; color: #28282B; direction: ltr; min-height: 100vh; }
+
+  header {
+    background: #FDFFFD;
+    border-bottom: 2px solid #AEBF7E;
+    padding: 24px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  header .logo-block h1 { font-size: 26px; font-weight: 700; color: #28282B; }
+  header .logo-block p { font-size: 15px; color: #28282B; margin-top: 3px; }
+
+  .role-tabs {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  .role-tab {
+    padding: 8px 20px;
+    border-radius: 8px;
+    border: 1.5px solid #D8DDD4;
+    background: #FDFFFD;
+    font-size: 15px;
+    font-weight: 600;
+    color: #5A6845;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .role-tab:hover { background: #F5F7F2; border-color: #AEBF7E; }
+  .role-tab.active { background: #AEBF7E; border-color: #AEBF7E; color: #28282B; }
+
+  .progress-bar-wrap {
+    background: #F5F7F2;
+    border-bottom: 1px solid #E5E4E2;
+    padding: 14px 40px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .progress-label { font-size: 14px; color: #28282B; font-weight: 500; white-space: nowrap; }
+  .progress-bar-bg { flex: 1; height: 7px; background: #D8DDD4; border-radius: 4px; overflow: hidden; }
+  .progress-bar-fill { height: 100%; background: #AEBF7E; border-radius: 4px; transition: width 0.4s ease; }
+  .progress-count { font-size: 14px; color: #28282B; font-weight: 600; white-space: nowrap; }
+
+  main { max-width: 860px; margin: 0 auto; padding: 32px 24px 60px; }
+
+  .section-card {
+    background: #FDFFFD;
+    border: 1px solid #D8DDD4;
+    border-radius: 12px;
+    margin-bottom: 14px;
+    overflow: hidden;
+    transition: box-shadow 0.15s;
+  }
+  .section-card:hover { box-shadow: 0 2px 12px rgba(40,40,43,0.07); }
+
+  .section-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 24px; cursor: pointer; user-select: none; gap: 12px;
+  }
+  .section-header:hover { background: #F5F7F2; }
+
+  .section-header-left { display: flex; align-items: center; gap: 14px; flex: 1; min-width: 0; }
+  .section-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+  .section-title { font-size: 17px; font-weight: 700; color: #28282B; }
+  .section-meta { font-size: 13px; color: #5A6845; margin-top: 2px; font-weight: 500; }
+
+  .section-right { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+  .section-progress-pill { font-size: 13px; color: #3a4a28; background: #DEEAB8; border-radius: 20px; padding: 4px 12px; font-weight: 600; white-space: nowrap; }
+  .chevron { font-size: 22px; color: #5A6845; transition: transform 0.2s; line-height: 1; }
+  .section-card.open .chevron { transform: rotate(180deg); }
+
+  .section-body { display: none; border-top: 1px solid #E5E4E2; }
+  .section-card.open .section-body { display: block; }
+
+  .item-row {
+    display: flex; align-items: flex-start; gap: 14px;
+    padding: 18px 24px; border-bottom: 1px solid #F0F0EE;
+    transition: background 0.1s; cursor: pointer;
+  }
+  .item-row:last-child { border-bottom: none; }
+  .item-row:hover { background: #F9FAF8; }
+
+  .checkbox-wrap { flex-shrink: 0; margin-top: 3px; }
+  .checkbox-wrap input[type="checkbox"] { width: 20px; height: 20px; accent-color: #AEBF7E; cursor: pointer; }
+
+  .item-content { flex: 1; min-width: 0; }
+  .item-name { font-size: 16px; font-weight: 600; color: #28282B; line-height: 1.5; }
+  .item-row.checked .item-name { text-decoration: line-through; color: #999; }
+
+  .item-expand-btn {
+    font-size: 13px; color: #5A6845; background: none; border: none;
+    cursor: pointer; padding: 0; margin-top: 6px;
+    display: inline-flex; align-items: center; gap: 5px; font-weight: 500;
+  }
+  .item-expand-btn:hover { color: #28282B; }
+
+  .item-details { display: none; margin-top: 14px; }
+  .item-details.open { display: block; }
+
+  .detail-block {
+    background: #F5F7F2; border: 1px solid #D8DDD4; border-radius: 8px;
+    padding: 14px 16px; margin-bottom: 10px;
+    font-size: 15px; line-height: 1.75; color: #28282B;
+  }
+  .detail-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 6px; color: #5A6845; }
+
+  .detail-question-block {
+    background: #FFFBF0; border: 1px solid #EEA11F;
+    border-left: 3px solid #EEA11F; border-radius: 6px;
+    padding: 12px 16px; margin-bottom: 10px;
+    font-size: 15px; color: #28282B; line-height: 1.7;
+  }
+  .detail-question-block .detail-label { color: #B07A10; }
+
+  .detail-relevance-block {
+    background: #EEF5FF; border: 1px solid #B8D0F0;
+    border-left: 3px solid #4A86C8; border-radius: 6px;
+    padding: 12px 16px; margin-bottom: 10px;
+    font-size: 15px; color: #28282B; line-height: 1.7;
+  }
+  .detail-relevance-block .detail-label { color: #2A5A9A; }
+
+  .detail-link {
+    display: inline-flex; align-items: center; gap: 5px;
+    color: #28282B; font-size: 14px; font-weight: 600;
+    text-decoration: none; border-bottom: 1px solid #AEBF7E;
+  }
+  .detail-link:hover { color: #5A6845; }
+
+  @media (max-width: 600px) {
+    header { padding: 20px 16px; }
+    .role-tabs { flex-wrap: wrap; }
+    main { padding: 20px 12px 40px; }
+    .section-header { padding: 16px; }
+    .item-row { padding: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo-block">
+    <h1>YS Onboarding Hub</h1>
+    <p>Yarzin Sella</p>
+  </div>
+  <div class="role-tabs">
+    <button class="role-tab active" onclick="switchRole('site_manager', this)">Site Manager</button>
+    <button class="role-tab" onclick="switchRole('head_chef', this)">Head Chef</button>
+    <button class="role-tab" onclick="switchRole('cbe', this)">CBE</button>
+  </div>
+</header>
+
+<div class="progress-bar-wrap">
+  <span class="progress-label">Overall Progress</span>
+  <div class="progress-bar-bg">
+    <div class="progress-bar-fill" id="progressFill" style="width: 0%"></div>
+  </div>
+  <span class="progress-count" id="progressCount">0 / 0</span>
+</div>
+
+<main id="mainContent"></main>
+
+<script>
+const roles = {
+
+site_manager: [
+  {
+    id: "sm_client_ops", title: "Client & Operations", titleHe: "Client & Operations", icon: "🤝", iconBg: "#E8F0E3",
+    items: [
+      { name: "Scope of Services at This Site", how: "Walk the site physically with your operational manager on Day 1 — visit every food spot, micro kitchen, café, and beverage bar in operation. Document what services are live, what format each follows, and what the daily service schedule is.", question: null, relevance: null, source: null },
+      { name: "Account Structure & Timeline", how: "Walk through the site's full account history — how the account grew, what service expansions occurred, and how the current service model was built.", question: null, relevance: null, source: null },
+      { name: "Business Model & Contract Type", how: "Walk through the specific contract model for your site (Cost Plus, Fix Price, Bill Factor, Markup, or Back-to-Back). Trace a recent monthly invoice end-to-end to understand how revenue is generated.", question: "What is the exact business model and markup % for this site?", relevance: null, source: null },
+      { name: "Client POC Map & Communication Protocol", how: "Receive the full client POC map — names, roles, and reporting lines. Shadow your manager in at least two client meetings in the first two weeks. Review the Communication Protocol to understand who meets with whom and at what frequency.", question: "Who is the primary client POC for this site? What is the current meeting schedule?", relevance: null, source: null },
+      { name: "Client KPI Framework", how: "Study the full KPI table — go through each KPI category and understand how each is measured and scored. Then pull the last quarter's KPI results for your site and review them.", question: "What is the current overall KPI score for this site? Which KPIs are below target?", relevance: null, source: null },
+      { name: "QBR (Quarterly Business Review) Preparation", how: "Review the last two QBR presentation decks — understand the structure, KPIs reported, action items, and how the scored KPI Excel was submitted.", question: "What is the submission deadline for the next QBR? Who owns the KPI scoring spreadsheet?", relevance: null, source: null },
+      { name: "Incident & Escalation Protocol", how: "Ask your direct manager to walk you through the last two significant incidents at the site — what happened, how it was communicated, and how it was resolved. Locate the escalation protocol. Practice writing a sample incident report.", question: "What is the agreed response SLA for incident communication to this client?", relevance: null, source: null },
+      { name: "User-Facing Programs & Engagement Initiatives", how: "Review the list of active user-facing programs at your site. Attend at least one program event in your first month as an observer.", question: "Which user-facing programs are currently active at this site? Who is the internal owner?", relevance: null, source: null },
+      { name: "Client's Service Standards", how: "Review the client's Service Standards sections of the relevant account SOP for each service.", question: null, relevance: null, source: null },
+      { name: "Events Operations", how: "Shadow the site manager or events manager through the full lifecycle of at least two events — from initial ticket opening through client contact, proposal preparation, supplier coordination, execution, and approval.", question: "What is the event management system used at this site? Who is the primary events contact on the client side?", relevance: null, source: null },
+      { name: "Access Management & Employee Badge Process", how: "Walk through the badge and site access process. Identify the relevant client-side contact (Facilities or IT) who manages access approvals and complete one badge request end-to-end under supervision.", question: null, relevance: null, source: null }
+    ]
+  },
+  {
+    id: "sm_finance", title: "Finance & Budget", titleHe: "Finance & Budget", icon: "💰", iconBg: "#FFF3E0",
+    items: [
+      { name: "Monthly P&L Structure", how: "Walk through the site's most recent P&L — line by line. Understand what each cost category represents (labor, food cost, operational costs), how each maps to the billing model, and where the profit is generated.", question: "What is the target food cost % and labor cost % for this site?", relevance: null, source: "BI platform" },
+      { name: "Invoice Preparation & Submission Process", how: "Understand the process of monthly invoice — what data inputs are needed (labor roster, food cost report, operational expense report), how the invoice is assembled, and through which system it is submitted.", question: "Who currently prepares the invoice for this site? What are the submission deadlines?", relevance: null, source: null },
+      { name: "Labor Cost Management", how: "Review the labor roster — understand how many FTEs and PTEs are on site. Study the labor billing logic for your site's business model (Bill Factor, Markup, or Back-to-Back).", question: "What is the approved headcount and labor budget for this site?", relevance: null, source: null },
+      { name: "Food Cost Control & Tracking", how: "Review the last three months of food cost data for the site. Understand how food cost is tracked (daily, weekly, monthly), what the target % is, and what the main cost drivers have been.", question: null, relevance: null, source: null },
+      { name: "Budget Variance Analysis", how: "Review the last quarter's budget vs. actual performance for your site. Ask your manager to walk you through any significant variances. Access the BI platform and run the same analysis independently.", question: null, relevance: null, source: null },
+      { name: "Revenue Optimization Opportunities", how: "Review the current revenue structure of your site with the Key Account Manager — what services are contracted, what the utilization rates are, and where there are opportunities to propose additional services or upsell.", question: "What are the current upsell or expansion opportunities identified for this site?", relevance: null, source: null },
+      { name: "Events Financial Management", how: "Walk through the financial structure of a recent event at the site — how it was priced, quoted, approved by the client, and billed.", question: "What is the current volume of catering/event business at this site? Who approves event quotes?", relevance: null, source: null },
+      { name: "Depreciation Report & Monthly Credits Reconciliation", how: "Review the depreciation report format and the monthly credits file — understand what is tracked in each, how often they are submitted, and to whom. Confirm you have access in Zester.", question: "What is the submission deadline and the recipient for the monthly credits reconciliation at this site?", relevance: null, source: "Zester" }
+    ]
+  },
+  {
+    id: "sm_team_hr", title: "Team Development & HR", titleHe: "Team Development & HR", icon: "👥", iconBg: "#EAF0F5",
+    items: [
+      { name: "Site Team Structure & Org Chart", how: "Meet every direct report individually in your first week — understand their role, tenure, key responsibilities, and any active performance issues. Map the full team structure on paper and compare it to the formal org chart.", question: null, relevance: null, source: "Bob HRIS" },
+      { name: "Recruitment & Onboarding Process", how: "Review the current open positions on site with your HR interface. Walk through the full recruitment process — from posting to onboarding — and understand what is handled by site management vs. HR. Review the Bob HRIS system.", question: "What are the current open positions on site? What is the average time-to-hire?", relevance: null, source: null },
+      { name: "Performance Management Cycle", how: "Review the YS performance management cycle with your HR interface — understand when reviews happen, what the process is, and what documentation is required. Then review the performance history of your direct reports.", question: null, relevance: null, source: null },
+      { name: "Client Offboarding Protocol", how: "Review the Client's SOW for Offboarding. Understand what steps are required — access revocation, asset return, system removal — and who is responsible for each.", question: null, relevance: null, source: null },
+      { name: "Employee Engagement & Culture", how: "Review recent employee engagement data for the site (if available) — turnover rate, tenure distribution, any exit interview themes.", question: null, relevance: null, source: null }
+    ]
+  },
+  {
+    id: "sm_culinary", title: "Culinary Excellence", titleHe: "Culinary Excellence", icon: "👨‍🍳", iconBg: "#FFF2EF",
+    items: [
+      { name: "Culinary Vision & Site Standards", how: "Understand the culinary philosophy at this site and how culinary standards are currently being maintained. Then review the client's culinary requirements in the relevant account SOP.", question: null, relevance: null, source: "YS Culinary Standards" },
+      { name: "Menu Cycle & Client Approval Process", how: "Review the current menu cycle — how menus are built, reviewed, and submitted to the client. Understand the approval timeline and what happens when a menu change is needed.", question: null, relevance: null, source: null },
+      { name: "Quality Reporting", how: "Review the current practice that is sent to the client for quality assurance.", question: null, relevance: null, source: null },
+      { name: "Allergen & Dietary Compliance", how: "Review the allergen card standards for your site. Walk through the current allergen card process with the Food Safety Manager and confirm it aligns with the client's requirements.", question: null, relevance: null, source: "YS Allergen Training Materials" },
+      { name: "Culinary Innovation & Menu Development Oversight", how: "Attend a menu development meeting — understand the Site Manager's role in supporting culinary innovation, connecting the culinary team to client feedback and market trends.", question: null, relevance: null, source: null }
+    ]
+  },
+  {
+    id: "sm_food_safety", title: "Food Safety & Compliance", titleHe: "Food Safety & Compliance", icon: "🛡️", iconBg: "#EAF5F0",
+    items: [
+      { name: "External Audit & Corrective Action Plan", how: "Explanation of corrective action and preventive action. Review of gaps identified in the latest site audits. Procedure for responding to corrective actions within 48 hours.", question: null, relevance: null, source: "https://yarzinsella-team.monday.com/boards/1539265986" },
+      { name: "Internal Audit — Weekly", how: "Review the audit. Ensure manager has access and knows where it is located. Understand which sites require an Internal Audit vs. MK Audit. Only the site manager or site chef are authorized to conduct the audit.", question: null, relevance: null, source: "https://yarzinsella-team.monday.com/boards/1539265987" },
+      { name: "SOP Book", how: "Review relevant SOPs. Get access to the SOP board. Define the SOPs the manager is required to review.", question: null, relevance: null, source: "https://yarzinsella-team.monday.com/boards/1663714949" },
+      { name: "Documentation Forms", how: "Review all required documentation forms.", question: null, relevance: null, source: "https://yarzinsella-team.monday.com/boards/1339765862" },
+      { name: "Customer Complaints SOP", how: "Review the procedure. Review the FSR form. Review the questionnaire.", question: null, relevance: null, source: null },
+      { name: "Licence — What is Allowed and Prohibited on Site", how: "Review site licence requirements and restrictions.", question: null, relevance: null, source: null },
+      { name: "Monday & SharePoint", how: "Review checklist, forms and simulation.", question: null, relevance: null, source: null },
+      { name: "Laboratory Tests", how: "Review laboratory testing requirements and schedule.", question: null, relevance: null, source: null },
+      { name: "Food Safety Training", how: "Complete food safety training requirements.", question: null, relevance: null, source: null },
+      { name: "Food Safety QA", how: "Review QA process and standards.", question: null, relevance: null, source: null },
+      { name: "Non-Compliance Form", how: "Review non-compliance reporting process.", question: null, relevance: null, source: "https://yarzinsella-team.monday.com/boards/1828406214" },
+      { name: "Allergen Training", how: "Training and Food Card SOP.", question: null, relevance: null, source: null },
+      { name: "Food Safety Policy", how: "Review the YS Food Safety Policy document.", question: null, relevance: null, source: "https://yarzinsella.sharepoint.com/:b:/r/sites/FoodSafety/Shared%20Documents/Global/YS%20Food%20Safety%20Policy.pdf" },
+      { name: "Shelf Life After Opening — Product List", how: "Review the product shelf life list.", question: null, relevance: null, source: null },
+      { name: "Above Complaint Standard", how: "Understand the above-complaint standard and process.", question: null, relevance: null, source: null },
+      { name: "Health Declaration", how: "Review health declaration requirements.", question: null, relevance: null, source: "https://yarzinsella-team.monday.com/boards/1347415707/views/9740925" }
+    ]
+  },
+  {
+    id: "sm_procurement", title: "Procurement", titleHe: "Procurement", icon: "📦", iconBg: "#F0EAF5",
+    items: [
+      { name: "Procurement System — Zester", how: "Get oriented on the Zester procurement system.", question: null, relevance: null, source: null },
+      { name: "QA Metrics Review", how: "Review QA metrics related to procurement.", question: null, relevance: null, source: null },
+      { name: "Procurement SOP", how: "Review the procurement SOP: Raw material procurement, Supplier onboarding, Inventory management, Control and documentation.", question: null, relevance: null, source: null },
+      { name: "Vendor Relationships & Approved Supplier List", how: "Review the current vendor list for the site — who the approved suppliers are, what the ordering frequency is, and whether there is a client-mandated approved vendor list.", question: null, relevance: null, source: null },
+      { name: "Monthly Inventory & Reporting", how: "Walk through how inventory is counted, recorded, and reported. Understand how inventory data feeds into the food cost report and the monthly invoice.", question: null, relevance: null, source: null },
+      { name: "Receiving & Quality Control Process", how: "Follow a morning receiving session to observe how deliveries are checked for quality, temperature, quantity, and against the PO. Understand what happens when a delivery is rejected. Then review the YS receiving SOP.", question: null, relevance: null, source: null }
+    ]
+  },
+  {
+    id: "sm_work_safety", title: "Work Safety", titleHe: "Work Safety", icon: "⛑️", iconBg: "#FFF5E5",
+    items: [
+      { name: "Workplace Safety Regulations & Site Risk Assessment", how: "Walk the full site with the Food Safety Manager or operational manager and complete a walk-through safety audit — identify active hazards, PPE compliance, and any outstanding corrective actions. Review applicable workplace safety regulations.", question: "Are there any open workplace safety corrective actions or outstanding risk items?", relevance: null, source: null },
+      { name: "Accident & Near-Miss Reporting", how: "Review the last 12 months of workplace accident and near-miss reports. Understand the reporting process — what must be reported, to whom, and within what timeframe. Simulate completing an incident report for a hypothetical scenario.", question: null, relevance: null, source: null }
+    ]
+  },
+  {
+    id: "sm_ys_exp", title: "YS Experience", titleHe: "YS Experience", icon: "✨", iconBg: "#F5F0FF",
+    items: [
+      { name: "YS Company Values, Vision & Positioning", how: "Meet with your direct manager for a structured orientation session covering YS's brand positioning, company values, and the 'premium hospitality' philosophy. Read the company background document.", question: null, relevance: null, source: "https://yarzinsella-team.monday.com/protected_static/16528917/resources/238179049/About Us 5.25.pdf" },
+      { name: "SOP — Hospitality", how: "Read the Hospitality SOPs.", question: null, relevance: null, source: "https://yarzinsella-team.monday.com/protected_static/16528917/resources/238179040/YS Hospitality Excellence Approach .docx" },
+      { name: "QA Metrics Review", how: "Review the Experience QA.", question: null, relevance: null, source: "https://yarzinsella-team.monday.com/protected_static/16528917/resources/238179061/Q1-2025-QBRs-Best-Practice-pptx (1).pdf" },
+      { name: "Account Handbook Purpose & Usage", how: "Read the introduction and structure of the relevant account handbook(s) with your direct manager. Understand what the handbook is for, how it is updated, and how it should be used in daily operations and team training.", question: null, relevance: null, source: null },
+      { name: "Food Program", how: "Review the food program for your site.", question: null, relevance: null, source: null }
+    ]
+  },
+  {
+    id: "sm_general", title: "General", titleHe: "General", icon: "🔧", iconBg: "#F0F2F0",
+    items: [
+      { name: "Digital Tools — Monday.com", how: "Complete the Monday orientation board.", question: null, relevance: null, source: null },
+      { name: "Digital Tools — BOB (HRIS)", how: "Complete the BOB orientation.", question: null, relevance: null, source: null },
+      { name: "Digital Tools — BI Platform", how: "Get access to and orientation on the BI Platform.", question: null, relevance: null, source: null },
+      { name: "Digital Tools — Mesh", how: "Get access to and orientation on Mesh.", question: null, relevance: null, source: null },
+      { name: "Quality Audit Process", how: "Review the YS quality audit framework with your direct manager — understand what types of audits are conducted (internal, external, health inspections), how often, and what the scoring criteria are. Conduct a self-audit of your site in the first month.", question: null, relevance: null, source: null }
+    ]
+  }
+],
+
+head_chef: [
+  {
+    id: "hc_culinary_ops", title: "Culinary Operations", titleHe: "Culinary Operations", icon: "🍳", iconBg: "#FFF2EF",
+    items: [
+      { name: "Daily Operational Routine — from Opening to Close", how: "Shadow the current Culinary Manager for one full operational day: pre-service prep flow, service execution, post-service cleaning and storage, and end-of-day documentation.", relevance: "Head Chef must understand the full daily rhythm before taking ownership of it. Gaps in the routine are where quality and food safety failures occur.", question: null, source: "Daily operational SOP; site checklist (Monday.com); Food Safety daily log" },
+      { name: "Reports", how: "Map every report the Site Chef is responsible for — daily, weekly, monthly. For each: what data is required, where it comes from, and who receives it.", relevance: "Head Chef is accountable for multiple reporting streams (food cost, waste, QA, allergen compliance). Missing a report or submitting incomplete data has direct consequences for client billing and account performance.", question: null, source: "Reporting calendar; Zester reports; Monday.com board; Finance month-end checklist" },
+      { name: "Food Cost", how: "Understand food cost tracking process; then review how daily data rolls up into the monthly food cost report submitted to Finance.", relevance: "Food cost management is one of the Head Chef's primary KPIs. Daily tracking prevents month-end surprises and allows course-correction mid-cycle.", question: "What is the process when food cost is trending above target mid-month — who is notified and what action is expected?", source: "Zester – daily food cost tracking; monthly food cost report template; BI platform" },
+      { name: "Production Planning — Quantities & Prep Sheets", how: "Review the current production planning process — how daily quantities are determined, how prep sheets are created and distributed — from menu finalization to Zester order, delivery, and inventory update.", relevance: "Production planning is the engine of kitchen efficiency. Over-production drives waste; under-production causes service failures. Head Chef owns this process.", question: "Is production planning done manually or is there a digital tool in use?", source: "Production planning sheet template; prep sheet format; Culinary Manager Zester ordering module" },
+      { name: "How Events Are Operationally Managed", how: "Understand how the brief is received, how production is planned separately from daily café service, and how the team is allocated.", relevance: "Catering events run in parallel with daily café service. Head Chef must understand how to manage both without compromising either.", question: "How far in advance are catering briefs typically received at this account?", source: "Catering brief template; event production checklist" },
+      { name: "How Multi-Site Operations Are Coordinated", how: "Hold a structured briefing with the Culinary Manager covering how quality, menus, and standards are maintained across multiple sites — and how the Head Chef is expected to be present across all of them.", relevance: "At large accounts (e.g., Google ELCO Tower: 3 Anchor Cafes, 3 Express Cafes, 24 MKs), the Head Chef is responsible for multiple kitchens simultaneously.", question: "What is the expected visit frequency of the Head Chef across sites for this account?", source: "Google Handbook – Operational Scope p.7; multi-site culinary overview report" }
+    ]
+  },
+  {
+    id: "hc_client_ops", title: "Client & Operations", titleHe: "Client & Operations", icon: "🤝", iconBg: "#E8F0E3",
+    items: [
+      { name: "Site / Operational Tour — Restaurants, MK, Events", how: "Walk the full site with the Site Manager on day one: every kitchen, micro kitchen, event space, delivery entrance, and storage area.", relevance: "Physical knowledge of the site is prerequisite to leading it.", question: null, source: "Site tour checklist; Google Handbook – Operational Scope p.7" },
+      { name: "Client KPIs", how: "Review the KPI scorecard with the direct manager; map the top 3 culinary-related KPIs and their current scores.", relevance: "Both Google and Meta track vendor performance formally. Head Chef must know the targets before their first service.", question: null, source: "Meta SOP §12 Client KPIs; Google Account Handbook – QA targets" },
+      { name: "Account Structure, POC & Services", how: "Review the account structure with the Account Manager; map the client contacts relevant to culinary operations and the YS org chart.", relevance: "Knowing who to contact on the client side — and for what — prevents delays and miscommunication when issues arise.", question: "Who is the primary culinary contact on the client side for this account?", source: "Google Handbook pp.5 – Key Contacts; Meta SOP §2.2 Key Contacts" },
+      { name: "Client Learning Portal Training", how: "Complete all required client platform training modules.", relevance: "Both Google and Meta require vendor staff to complete platform-specific training. Incomplete certifications are a compliance risk.", question: null, source: null },
+      { name: "Client Internal Platform Tools — Meeting & Calendar Tool", how: "Learn to use the client's internal calendar and meeting tool.", relevance: "Used for advance planning of catering requests and special service days.", question: null, source: null },
+      { name: "Client Internal Platform Tools — Visitor Tool", how: "Learn to use the client's visitor management tool.", relevance: "External visitor events may require tailored menus or stricter allergen documentation.", question: null, source: null },
+      { name: "Client Internal Platform Tools — Outlook", how: "Set up and use Outlook for client communications.", relevance: "Client stakeholders communicate via Outlook. Head Chef must be reachable through the correct channel.", question: null, source: null },
+      { name: "Client Internal Platform Tools — Helpdesk", how: "Learn to submit Helpdesk tickets for facilities support.", relevance: "Kitchen equipment failures require Helpdesk tickets. Head Chef must be able to submit a ticket independently.", question: null, source: null },
+      { name: "Client Internal Platform Tools — Request a Badge", how: "Learn the badge request process for new team members.", relevance: "All team members on site require valid badges. Head Chef is responsible for team-wide access management.", question: null, source: null },
+      { name: "Events & Client Calendar", how: "Review the events calendar with the Events Manager; identify all upcoming catering requirements that need production planning.", relevance: "Head Chef must have visibility of the events pipeline to plan team capacity.", question: null, source: "Client calendar system; Google Handbook – Catering Experience; Meta SOP §5" },
+      { name: "Meetings with Client — Different Stakeholders", how: "Attend the first client culinary or ops meeting as an observer alongside the direct manager; debrief immediately afterward.", relevance: "Head Chef may participate in regular client meetings. Observing first builds familiarity with format, tone, and client expectations.", question: "What is the meeting cadence for culinary reviews at this site, and who attends from the client side?", source: "Meta SOP §4 Communication Protocol; Google Handbook – Key Contacts" },
+      { name: "Routine Account Reports — Monthly or Quarterly", how: "Review the last 2 account reports with the Account Manager; understand which culinary data the Head Chef must provide and by what deadline.", relevance: "Head Chef provides inputs to monthly and quarterly client reports.", question: null, source: "Meta SOP §4 – Recap Report; Google Handbook" },
+      { name: "Internal Management Routines & Meetings", how: "Review the internal meeting calendar with the Site Manager; attend all recurring meetings for the first month.", relevance: "Internal meetings are where issues are escalated, priorities are set, and the Head Chef aligns with the broader operations team.", question: null, source: null }
+    ]
+  },
+  {
+    id: "hc_kitchen_fam", title: "Kitchen Familiarization", titleHe: "Kitchen Familiarization", icon: "🔪", iconBg: "#F5F0FF",
+    items: [
+      { name: "Full Kitchen & Site Walkthrough, Equipment Operation & Maintenance, Cold Storage & Dry Store Standards", how: "Walk every kitchen, prep area, cold storage, dry store, and delivery point on site with the Site Manager — document equipment status and immediate operational needs.", relevance: "Physical knowledge of the kitchen is the starting point for everything else. Head Chef cannot manage, plan, or problem-solve a space they have not seen.", question: "Is there a current list of pending maintenance or equipment repair requests for this site?", source: "Site tour checklist; equipment maintenance log; Monday.com site board" }
+    ]
+  },
+  {
+    id: "hc_menu_building", title: "Menu Building", titleHe: "Menu Building", icon: "📋", iconBg: "#EAF0F5",
+    items: [
+      { name: "How Menus Are Structured at the Account", how: "Walk through a completed monthly menu cycle — review how stations are organized, the hot/cold ratio, and how dietary streams (vegetarian, vegan, gluten-free) are integrated.", relevance: "The Head Chef is the architect of the daily menu. Before building anything, they must understand what a complete YS menu looks like — station by station, day by day.", question: "How many dishes per station per day is the standard for this account?", source: "Monthly menu files (shared drive); YS Culinary SOP – menu structure guidelines" },
+      { name: "Decision-Making Process & Approvals", how: "Review the menu approval flow with the direct manager: who proposes, who reviews internally, who sends to the client, and what the client approval timeline looks like. Review the last 3 submitted menus with the Culinary Manager.", relevance: "Menu decisions are not unilateral. Head Chef must know exactly where their authority ends and where client or management approval is required before a dish goes on the line.", question: "Does the Head Chef have autonomy to change daily dishes, or is every change subject to client sign-off? What is the exact submission deadline for this site?", source: "Meta SOP §6 – menu approval process; Google Account Handbook – Food Program planning" },
+      { name: "Dietary Requirements & Allergens", how: "Build a sample weekly menu in the template with the Culinary Manager, covering all required dietary streams and mapping allergens for each dish.", relevance: "Every menu must account for vegetarian, vegan, gluten-free, and other dietary needs — plus complete allergen mapping per dish. This is both a client expectation and a food safety obligation.", question: null, source: "Menu template with allergen mapping; Meta SOP §5.1.3; YS Allergen guidelines" },
+      { name: "How the Rotation Calendar Is Planned & Maintained", how: "Map the current menu rotation calendar with the Culinary Manager — understand the cycle length, how variety is tracked across weeks, and how the calendar is updated when dishes change.", relevance: "Menus rotate daily. Without a managed rotation calendar, dishes repeat, variety drops, and client satisfaction scores fall. Head Chef owns this calendar.", question: "What is the current rotation cycle length — 4 weeks, 6 weeks?", source: "Menu rotation calendar (shared drive or Monday.com)" }
+    ]
+  },
+  {
+    id: "hc_menu_innovation", title: "Menu Innovation", titleHe: "Menu Innovation", icon: "💡", iconBg: "#FFF3E0",
+    items: [
+      { name: "Innovation Process", how: "Review how new ideas have been introduced in the past: what has worked, what the client responds to, and what is coming up.", relevance: "Innovation does not happen by accident. Head Chef needs to understand the existing innovation pipeline — seasonal menus, themed days, new station concepts — and how to feed into it.", question: "What menu innovations have received the best client feedback in the past year?", source: "Previous WOW moments documentation; innovation log; direct manager" },
+      { name: "Tools & Resources", how: "Review available resources with the Culinary Manager: food trend reports, supplier new product introductions, internal culinary research materials, and access to professional culinary databases.", relevance: "Head Chef cannot innovate in a vacuum. Knowing what research tools and product introduction channels exist is prerequisite to building a credible innovation pipeline.", question: "Does YS provide access to any culinary trend platforms or food research tools?", source: "Supplier NPI process; procurement supplier catalogue; Meta SOP §7" },
+      { name: "KitchenSync & User-Facing Culinary Programmes", how: "Attend one KitchenSync or Team Build session as an observer; understand the facilitation format, what preparation the kitchen team needs to do, and what the client expects.", relevance: "Google's KitchenSync is a flagship client engagement programme led by Café Culinary Managers. Head Chef may be called to facilitate or contribute — high-visibility client moments.", question: "How frequently are KitchenSync or Team Build sessions scheduled at this account?", source: "Google Account Handbook – User-Facing Programmes p.7; KitchenSync session plan" }
+    ]
+  },
+  {
+    id: "hc_quality", title: "Quality & Standards", titleHe: "Quality & Standards", icon: "⭐", iconBg: "#EAF5F0",
+    items: [
+      { name: "Daily Food Safety Routine — Site Checklists & Forms", how: "The daily food safety touchpoints: when they happen, who is responsible, what is documented, and what happens if something is missed.", relevance: "Head Chef must internalize the daily food safety rhythm — temperature checks, FIFO rotation, allergen card review, cleaning schedule sign-off — so it becomes automatic, not reactive.", question: "Are all daily food safety tasks currently being completed consistently, or are there known compliance gaps?", source: "Daily site checklist (Monday.com); HACCP daily log; YS Food Safety SOP – daily tasks" },
+      { name: "Weekly Food Safety Routine — Internal Audit & Team Follow-up", how: "Co-run the weekly internal audit for the first two weeks; understand how findings are documented, communicated to the team, and closed out before the next audit.", relevance: "The weekly audit is the Head Chef's primary self-monitoring tool. Running it consistently — and acting on findings — is what prevents a surprise result in an external audit.", question: null, source: "YS Internal Audit checklist; Monday.com audit board; corrective action log" },
+      { name: "Monthly Food Safety Routine — Reporting, Lab Results & Trend Review", how: "Monthly food safety review with the Food Safety Manager: review lab test results, audit trend data, outstanding corrective actions, and what goes into the monthly report.", relevance: "Monthly review is where patterns become visible. Head Chef uses this to identify recurring issues, measure improvement, and prepare data required for client reporting.", question: "Is there a formal monthly food safety review meeting on this account, or is it embedded in a wider ops meeting?", source: "Monthly food safety report template; lab test results archive; Monday.com QA board" },
+      { name: "Incident Response Routine — Site Specific", how: "Understand the specific stakeholders for your site and the exact response sequence — stop, contain, document, escalate.", relevance: "Head Chef is the first decision-maker in a food safety incident. Knowing the exact response sequence before it happens prevents panic-driven errors.", question: null, source: "YS Customer Complaint SOP; Non-Compliance Form; Food Safety Manager escalation protocol" },
+      { name: "Culinary QA Audit — What It Covers & How It Is Scored", how: "Review the QA audit form with the Culinary Manager; walk through a completed audit from the last 3 months and understand how each criterion is scored.", relevance: "The QA audit is the formal measure of the Head Chef's culinary performance. Understanding exactly what is being assessed allows the team to be managed against the right standard.", question: null, source: "YS Culinary QA audit form; Monday.com QA board; Google / Meta QBR reports" },
+      { name: "Plating & Presentation Standards", how: "Review the plating standards document and photo reference library with the Culinary Manager; then walk the service line during one lunch service to assess current practice against the standard.", relevance: "Presentation is a KPI, not an aesthetic preference. Both Google and Meta score food presentation formally. Head Chef enforces consistent plating across every station and every team member.", question: "Is there a photo reference library for this account's dishes, or does one need to be created?", source: "YS plating standards document; photo reference library; Meta SOP §5.1.1" },
+      { name: "How Client Feedback on Food Quality Is Captured & Acted On", how: "Review the client feedback log with the direct manager; understand how feedback arrives, how it is documented, and what the expected response turnaround is.", relevance: "Client feedback is the external QA signal. Head Chef must have a systematic way to capture it, share it with the team, and demonstrate improvement.", question: null, source: "Client feedback log; Meta SOP §4 – Communication Protocol; account QBR reports" }
+    ]
+  },
+  {
+    id: "hc_food_safety", title: "Food Safety & Compliance", titleHe: "Food Safety & Compliance", icon: "🛡️", iconBg: "#EAF5F0",
+    items: [
+      { name: "QA Metrics Review", how: "Review the last 3 food safety QA reports with the Food Safety Manager; discuss scoring methodology and what triggers a corrective action.", relevance: "Head Chef is accountable for food safety QA scores on site. Knowing the current baseline before ownership transfer is critical.", question: "What is the minimum passing QA score for this account?", source: null },
+      { name: "Customer Complaint SOP + Simulation", how: "Read the SOP; then run through the simulation exercise on Monday.com with the Food Safety Manager acting as the incident reporter.", relevance: "In a food safety incident, Head Chef is the first technical responder. Running the simulation while someone is present ensures the process is understood, not just read.", question: null, source: null },
+      { name: "Participation in Food Safety Training of New Employees", how: "Observe the food safety training for new employees.", relevance: "Head Chef will eventually deliver or co-deliver this training. Seeing it done correctly first ensures quality when it becomes their responsibility.", question: null, source: null },
+      { name: "Specific Client Requirements on Food Safety — Policies & Reports", how: "Receive a dedicated briefing from the Food Safety Manager covering the client's food safety documentation requirements, inspection format, and reporting cadence.", relevance: "Client-specific requirements (Meta's allergen card format, Google's inspection scoring) override YS defaults where stricter. Head Chef must know these before their first service.", question: "What food safety reports must be submitted to this client, and on what schedule?", source: null },
+      { name: "Specific Policies — Israel & EU", how: "Review the regional policy comparison document with the Food Safety Manager, focusing on differences between Israeli Ministry of Health requirements and EU HACCP directives.", relevance: "Regulatory requirements differ by region. Head Chef must know which ruleset applies at their site and where it diverges from YS internal defaults.", question: null, source: null },
+      { name: "External Audit & Corrective Action Plan", how: "Review all open corrective actions from the previous audit — these transfer to the new Head Chef's responsibility on day one.", relevance: null, question: "When is the next scheduled external audit for this site?", source: "https://yarzinsella-team.monday.com/boards/1539265986" },
+      { name: "SOP Book", how: "Review all relevant SOPs. Every food handling procedure has a documented standard.", relevance: "Head Chef enforces and updates these SOPs — must know them before managing the team against them.", question: null, source: "https://yarzinsella-team.monday.com/boards/1663714949" },
+      { name: "Documentation Forms", how: "Review all required documentation forms (temperature logs, cleaning records, receiving forms).", relevance: "Head Chef verifies the team fills them in accurately.", question: null, source: "https://yarzinsella-team.monday.com/boards/1339765862" },
+      { name: "Licence — What Is Allowed and Prohibited on Site", how: "Review the site operating licence with the Site Manager; discuss any constraints that directly affect menu planning or production methods.", relevance: "The licence defines legal limits on what can be cooked, sold, or served on site. Must be understood before finalizing any new menu item.", question: "Are there any licence constraints that currently limit what can be produced on this site?", source: null },
+      { name: "Monday & SharePoint — Site Checklist, Forms & Simulation Board", how: "Navigate both platforms independently and locate: daily site checklist, all active food safety forms, and the simulation board. Confirm access and familiarity with layout.", relevance: "These platforms are the digital backbone of daily food safety management. Head Chef must be able to use them without assistance from day one.", question: null, source: null },
+      { name: "Laboratory Tests", how: "Review the last 3 lab test results with the Food Safety Manager; understand what each test measures, how results are interpreted, and what triggers a corrective action.", relevance: "Lab test results verify microbial compliance. Abnormal results require immediate corrective action from the Head Chef.", question: "What is the testing frequency for this site, and who receives the results?", source: null },
+      { name: "Non-Compliance Form", how: "Review the non-compliance reporting process and escalation path.", relevance: "When a food safety breach occurs, Head Chef documents it and escalates through the correct path.", question: null, source: "https://yarzinsella-team.monday.com/boards/1828406214" },
+      { name: "Allergen Training", how: "Complete allergen training and review Food Card SOP.", relevance: "Head Chef is responsible for ensuring every dish has a correct allergen card before service. Errors here are a safety and compliance risk.", question: null, source: null },
+      { name: "Food Safety Policy", how: "Review the overarching YS Food Safety Policy.", relevance: "Head Chef is accountable for the full kitchen team's compliance with this policy.", question: null, source: "https://yarzinsella.sharepoint.com/:b:/r/sites/FoodSafety/Shared%20Documents/Global/YS%20Food%20Safety%20Policy.pdf" },
+      { name: "Shelf Life After Opening — Product List", how: "Review the product shelf life list for all opened products.", relevance: "Knowing exactly how long each opened product is safe prevents both food safety incidents and unnecessary waste.", question: null, source: null },
+      { name: "Above Complaint Standard", how: "Review documented examples of above-standard complaint responses with the Food Safety Manager; discuss what the expectation looks like in practice on this account.", relevance: "Going above the minimum complaint response is an explicit YS expectation. Head Chef models and enforces this standard with the team.", question: null, source: null },
+      { name: "Health Declaration", how: "Review the process for collecting declarations from all team members and where they are stored.", relevance: "Health declarations are required for all food handlers. Head Chef is responsible for team-wide compliance and for managing declarations for new joiners.", question: null, source: "https://yarzinsella-team.monday.com/boards/1347415707/views/9740925" },
+      { name: "Internal Audit — Weekly", how: "Review the audit. Ensure access and know where it is located. Only the site manager or site chef are authorized to conduct the audit.", relevance: null, question: null, source: "https://yarzinsella-team.monday.com/boards/1539265987" },
+      { name: "Food Safety Training", how: "Complete all food safety training requirements.", relevance: null, question: null, source: null },
+      { name: "Food Safety QA", how: "Review QA process and standards.", relevance: null, question: null, source: null }
+    ]
+  },
+  {
+    id: "hc_finance", title: "Finance", titleHe: "Finance", icon: "💰", iconBg: "#FFF3E0",
+    items: [
+      { name: "Site Finance Reports", how: "Review the last 2 site finance reports with the Finance Manager; understand what is generated, when, and what culinary inputs are required.", relevance: "Head Chef must know which finance reports exist for this site and what their role is in producing accurate data for them.", question: null, source: "Monthly site finance report; Finance Manager" },
+      { name: "Month Closing", how: "Participate in the next month-end closing cycle alongside the Finance Manager; complete all Head Chef inputs (inventory count, waste log, invoice approvals) with guidance.", relevance: "Accurate month-end data depends on the Head Chef's inputs. Participating once with support before doing it independently prevents errors.", question: null, source: "Finance month-end checklist; Zester reconciliation report; Meta SOP §9.1" },
+      { name: "Budget Management — Comparing to Target Budget", how: "Review the current budget vs. actuals report with the Finance Manager; understand the food cost % target and the explanation process for variances.", relevance: "Head Chef is accountable for food cost performance. Must know the target, current performance, and how to explain deviations.", question: "What is the approved food cost % target for this site?", source: "Finance budget file; monthly variance report" },
+      { name: "BI Platform", how: "Log in to the BI platform with the Finance Manager; navigate to the site-specific dashboard and learn to read food cost %, plate counts, and labor hours.", relevance: "The BI platform gives the Head Chef real-time visibility into performance. Must be able to use it independently for daily decision-making.", question: null, source: "BI platform – site dashboard" },
+      { name: "Monthly Customer Billing", how: "Review the last 3 monthly billing submissions with the Finance Manager; understand what culinary data is required, in what format, and by which deadline.", relevance: "Head Chef provides inputs to the monthly client invoice. Errors or late submissions delay billing and damage account credibility.", question: "What specific culinary data is required by this client with the monthly invoice?", source: "Monthly billing report template; Meta SOP §9" },
+      { name: "Payroll Procedures — Month Closing, Payroll Admin, Time Key & Timesheet", how: "Review the payroll submission process with the Finance Manager; approve the first team timesheet and cross-check against Time Key data.", relevance: "Payroll accuracy is a Head Chef responsibility. Errors create billing discrepancies.", question: null, source: "Time Key user guide; payroll admin template; Meta SOP §9.1" },
+      { name: "P&L Reporting", how: "Review the last 2 months of the site P&L with the Finance Manager; identify the food cost and labor cost lines and understand what drives each.", relevance: "Head Chef's decisions directly drive the two largest cost lines on the site P&L. Must be able to read the report and explain variances.", question: null, source: "Monthly site P&L report; Meta SOP §9" },
+      { name: "Mesh — Expenses Platform Introduction", how: "Log in to Mesh with the Finance Manager; trace one historical expense approval to understand the workflow.", relevance: "Mesh is used for ad-hoc purchasing outside regular Zester orders. Head Chef must know how to submit and approve expenses.", question: null, source: "Mesh platform" },
+      { name: "QA Metrics Review", how: "Review the financial performance KPIs for this site with the Finance Manager; understand what is being tracked and what the scoring thresholds are.", relevance: "Financial QA metrics (food cost %, waste %, budget variance) are part of the Head Chef's formal performance scorecard.", question: null, source: "Finance QA dashboard" },
+      { name: "Budget Creation", how: "Participate in the annual budget planning process with the Finance Manager; contribute food cost projections, staffing requirements, and planned innovation spend.", relevance: "Head Chef's inputs shape the annual budget. Participating once before owning it independently builds skill and confidence.", question: null, source: "Finance budget template; annual planning calendar" },
+      { name: "Pricing Creation", how: "Sit with the Finance Manager to understand how menu item pricing is calculated for this site; review one existing pricing model as a worked example.", relevance: "Head Chef must understand how a new menu item affects the cost structure before introducing it.", question: null, source: "Pricing model template; Meta SOP §2.1 Business Models" }
+    ]
+  },
+  {
+    id: "hc_procurement", title: "Procurement", titleHe: "Procurement", icon: "📦", iconBg: "#F0EAF5",
+    items: [
+      { name: "Procurement System — Zester", how: "Complete the Zester onboarding: navigate the ordering module, run a food cost report, and place a first test order.", relevance: "Zester is the primary tool for all purchasing and cost tracking. Head Chef uses it daily — must be fully operational in it from week one.", question: null, source: "Zester user guide; Procurement Manager onboarding session" },
+      { name: "Procurement SOP: Raw Material Procurement", how: "Read the SOP; then participate in at least 3 goods receiving sessions alongside the Procurement Manager before doing it independently.", relevance: "Goods receiving is a food safety checkpoint — not just a logistics task. Head Chef must be able to reject non-compliant deliveries confidently.", question: null, source: "YS Procurement SOP; Goods Receiving checklist; Meta SOP §7" },
+      { name: "Inventory Management", how: "Review current par levels in Zester with the Procurement Manager; compare against the last 4 weeks of actual usage and identify adjustments needed.", relevance: "Par levels that don't reflect real usage cause stockouts or overstocking. Head Chef owns this calibration.", question: null, source: "Zester inventory module; Procurement SOP" }
+    ]
+  },
+  {
+    id: "hc_people", title: "People Management", titleHe: "People Management", icon: "👥", iconBg: "#EAF0F5",
+    items: [
+      { name: "Team Structure — Roles, Responsibilities & Reporting Lines", how: "Review the kitchen org chart with the direct manager; understand who reports to whom, what each role is responsible for, and where the Head Chef sits in relation to Sous Chefs, Station Leads, and Culinary Team Members.", relevance: "Head Chef cannot lead the team effectively without understanding the structure they are stepping into. Role clarity prevents duplication and accountability gaps.", question: null, source: "Kitchen org chart; Google Handbook pp.11-13; Meta SOP §3 People Operations" }
+    ]
+  },
+  {
+    id: "hc_hr", title: "HR", titleHe: "HR", icon: "🗂️", iconBg: "#F0EAF5",
+    items: [
+      { name: "Receiving Equipment & Signature (ID, IT Device)", how: "Collect all equipment on day one; confirm active access to Monday.com, Zester, BI, Bob, and work email before end of first day.", relevance: "Without system access, the Head Chef cannot manage ordering, QA tracking, or team communication from day one.", question: null, source: "IT onboarding checklist" },
+      { name: "Monday.com — User & Training Board", how: "Complete the Monday.com onboarding module on the Training Board independently; then explore the site-specific boards with the direct manager.", relevance: "Monday is the daily management platform for audits, tasks, and QA. Head Chef must be fully functional in it before taking operational ownership.", question: null, source: "Monday.com Training Board; site-specific boards" },
+      { name: "One on One — Direct Manager", how: "Hold a structured one-on-one with your direct manager. Come prepared with questions about the account and team.", relevance: "This conversation sets the Head Chef's accountability framework.", question: null, source: null },
+      { name: "Set Your Email Signature", how: "Set up a consistent email signature.", relevance: "Consistent email signatures are part of professional representation to client stakeholders.", question: null, source: null },
+      { name: "HR Procedures & Practices — Onboarding, Employee Relations, Hearing, Termination", how: "Complete the HR induction session with the People Operations contact; review the HR procedures document independently afterward.", relevance: "As a team leader managing multiple kitchen staff, Head Chef must understand HR procedures to handle performance issues correctly and avoid legal exposure.", question: null, source: "HR Procedures document; Bob HRIS platform" },
+      { name: "SOP & Guidelines + SOW Presentation", how: "Receive a presentation of the Statement of Work from the direct manager or Account Manager; read the full document and flag any clauses that affect culinary operations.", relevance: "The SOW defines what YS has contractually committed to deliver. Head Chef must know what they are being held to.", question: null, source: "Account SOW document; Meta SOP; Google Account Handbook" },
+      { name: "Yearly Engagement Plan + DEI", how: "Review the annual engagement plan and DEI guidelines.", relevance: "Head Chef builds a kitchen team culture that reflects organizational and client DEI values — especially relevant in diverse, multinational teams.", question: null, source: "YS Annual Engagement Plan; DEI guidelines" },
+      { name: "Recruitment SOP", how: "Read the Recruitment SOP; meet HR to discuss it; then review the current team roster with the direct manager and identify any open or at-risk positions.", relevance: "Head Chef is involved in hiring culinary team members. Understanding the recruitment process enables fast response to team gaps.", question: null, source: "HR Recruitment SOP; Bob HRIS platform" },
+      { name: "Time Key System — User Guide & Explanations", how: "Learn to use the Time Key system for labor reporting.", relevance: "Accurate time reporting feeds into labor cost calculations and client invoices. Errors here create billing disputes.", question: null, source: "Time Key user guide; Meta SOP §9.1" },
+      { name: "Intro to Bob Platform — HRIS", how: "Get oriented on the Bob HRIS platform.", relevance: "Bob is used for day-to-day people management. Head Chef must be functional in it without IT support.", question: null, source: "Bob HRIS platform; HR onboarding guide" },
+      { name: "HR Toolkit — Agreements, Working Hours, Vacation, Sick Leave, Work Permits, Foreign Employees", how: "Read the HR Toolkit section relevant to the current team composition; discuss specific cases with the People Operations contact.", relevance: "Understanding employment terms prevents disputes and ensures fair team management — especially in sites with diverse workforce compositions.", question: null, source: "HR Toolkit document; Bob HRIS" }
+    ]
+  },
+  {
+    id: "hc_ys_exp", title: "YS Experience", titleHe: "YS Experience", icon: "✨", iconBg: "#F5F0FF",
+    items: [
+      { name: "Client Experience, YS Services & Hospitality Approach", how: "Watch all YS Hospitality Excellence LEARN videos.", relevance: "YS delivers a full hospitality experience, not just food. Head Chef must understand and model the service standard that the client is paying for.", question: null, source: "YS About Us presentation; 2025 Client Experience Strategy document" },
+      { name: "About Us Presentation", how: "Read the presentation independently.", relevance: "Head Chef will use this presentation when onboarding new kitchen team members and in client-facing moments.", question: null, source: "YS About Us slide deck" },
+      { name: "Best Practices — Examples & Expectations", how: "Review the Best Practices examples library with the direct manager; select one practice to implement within the first month.", relevance: "Concrete examples of excellent execution build a shared picture of the standard the Head Chef must set for the team.", question: null, source: "YS Best Practices examples library" },
+      { name: "Service Methodology", how: "Observe one full service cycle from start to finish — including pre-service prep, service period, and post-service debrief — alongside the FOH Manager.", relevance: "Kitchen and front-of-house must operate as one experience. Head Chef must understand the full service rhythm before leading it.", question: null, source: "YS Service Methodology document" },
+      { name: "ESG — Strategy & Initiatives", how: "Review the client's ESG requirements with the Account Manager; identify one culinary initiative to propose in the first month.", relevance: "Google and Meta are global ESG leaders and evaluate vendors on sustainability. Head Chef leads the culinary ESG contribution.", question: null, source: "Google FoodTalks programme; Meta Sustainability guidelines; YS ESG framework" }
+    ]
+  },
+  {
+    id: "hc_work_safety", title: "Work Safety", titleHe: "Work Safety", icon: "⛑️", iconBg: "#FFF5E5",
+    items: [
+      { name: "Work Safety — Local Regulations & Internal Rules", how: "Complete the work safety induction session with the designated Work Safety Officer; then walk through the kitchen to identify any active safety concerns.", relevance: "Head Chef is legally accountable for safe operation of all kitchen equipment. Understanding local labor law obligations and internal rules prevents accidents and legal exposure.", question: null, source: "Work Safety induction materials; local regulatory guidelines (IL / EU)" }
+    ]
+  },
+  {
+    id: "hc_goals", title: "Goals & QA", titleHe: "Goals & QA", icon: "🎯", iconBg: "#EAEFDF",
+    items: [
+      { name: "Clarifying Short and Long-Term Expectations + KPIs", how: "Hold a structured KPI-setting session with the direct manager in the first week; agree on measurable targets for 30, 60, and 90 days and for the full year.", relevance: "This session is the formal start of accountability. Head Chef leaves with clear, documented targets.", question: null, source: "Meta KPI scorecard; Google QA framework; YS 2026 QA criteria" }
+    ]
+  }
+]
+
+,
+
+cbe: [
+  {
+    id: "cbe_strategy", title: "Account Strategy & Growth", titleHe: "Account Strategy & Growth", icon: "📈", iconBg: "#EAEFDF",
+    items: [
+      { name: "Account History & Development Timeline", how: "Review the account's full history — when it started, how it grew, what service model was built, and what the key milestones were. Then read the Account Handbook and Client SOW to understand the formal scope as it stands today.", relevance: null, question: null, source: "Client SOW | Account Handbook" },
+      { name: "Contract & Business Model", how: "Study the contract structure for every site under the account — the business model (Cost Plus, Bill Factor, Fix Price, Markup), the markup percentages, and what costs are passed to the client. Understand where the profit is generated and what levers exist to grow or protect it.", relevance: null, question: "What is the exact markup % and business model for each site under this account?", source: "Client SOW" },
+      { name: "Account Growth Opportunities", how: "Review the current service scope per site and map what is contracted versus what is live. Identify services that exist at other YS accounts but not here. Review the client's growth plans (new offices, headcount increase) with the Key Account Manager and document at least three potential expansion opportunities.", relevance: null, question: "What are the client's expansion plans for the next 12 months?", source: "Key Account Manager | Account Handbook" },
+      { name: "Competitive Positioning & Client Expectations", how: "Understand what the client benchmarks YS against — other vendors they have used or are aware of, internal expectations, and feedback from previous QBRs. Review the client satisfaction scores and any past escalations with the Key Account Manager.", relevance: null, question: null, source: "Previous QBR reports | Key Account Manager" },
+      { name: "Innovation Pipeline", how: "Review what innovations have been presented to the client in the past year — new equipment, technology, process improvements, product introductions. Understand the client's KPI on innovation (number of innovations per quarter) and build an initial pipeline for the next quarter.", relevance: null, question: "What is the current innovation KPI target and the score from last quarter?", source: "Client SOW §KPIs | Key Account Manager" }
+    ]
+  },
+  {
+    id: "cbe_client_ops", title: "Client & Operations", titleHe: "Client & Operations", icon: "🤝", iconBg: "#E8F0E3",
+    items: [
+      { name: "Client POC Map — Senior Level", how: "Receive the full client POC map for senior stakeholders — who the VP, Director, and Program Manager are, what their priorities are, and what the history of the relationship looks like. Understand the communication protocol at each level: who meets monthly, who meets weekly, what each meeting covers.", relevance: null, question: "Who is the most senior client contact, and what is the current state of the relationship?", source: "Client SOW §Communication Protocol" },
+      { name: "Communication Cadence — All Sites", how: "Map the full calendar of recurring meetings across all sites: monthly business reviews, weekly operational calls, QBRs. Understand which meetings the CBE leads, which the Site Managers lead, and what reporting flows from each meeting back to the CBE.", relevance: null, question: null, source: "Client SOW §Communication Protocol | Site Managers" },
+      { name: "QBR Ownership", how: "Review the last two QBR decks — understand the structure, the KPIs reported, the action items, and how the scored KPI file was submitted. Understand what the CBE prepares, what the Site Managers contribute, and what the client expects to see. Own the preparation of the next QBR end-to-end.", relevance: null, question: "What is the next QBR date and submission deadline?", source: "Client SOW §KPIs | QBR template" },
+      { name: "Account-Level KPI Framework", how: "Study the full KPI table in the Client SOW — every category, measurement method, and scoring threshold. Pull the last full year of KPI scores across all sites and understand the trend. Identify which KPIs are structurally at risk and which are consistently strong.", relevance: null, question: null, source: "Client SOW §KPIs | BI platform" },
+      { name: "Cross-Site Service Consistency", how: "Visit all sites under the account in the first month. For each site, review service standards against what is required in the Client SOW. Note gaps and differences between sites. Understand how Site Managers currently coordinate — or don't — on standards and best practices.", relevance: null, question: null, source: "Client SOW §Service Standards | Site Managers" },
+      { name: "Incident & Escalation Protocol", how: "Understand the escalation path for incidents at account level — what reaches the CBE, in what timeframe, and how the CBE communicates with the client in a crisis. Review the last two significant incidents across all sites.", relevance: null, question: null, source: "Client SOW §EHS | YS Escalation Protocol" }
+    ]
+  },
+  {
+    id: "cbe_finance", title: "Finance & Budget", titleHe: "Finance & Budget", icon: "💰", iconBg: "#FFF3E0",
+    items: [
+      { name: "Consolidated Account P&L", how: "Review the consolidated P&L across all sites — understand how each site contributes to the account's total financial result. Identify which sites are profitable, which are at risk, and what the main cost drivers are across the account.", relevance: null, question: null, source: "BI platform | YS Finance team" },
+      { name: "Invoice Approval Process", how: "Understand the CBE's role in approving invoices before submission to the client. Review the invoice approval workflow — what the CBE reviews, what the submission deadlines are, and what happens when an invoice is rejected. Review the Client SOW for invoice KPI requirements.", relevance: null, question: "What is the current invoice approval workflow, and where does the CBE sit in it?", source: "Client SOW §Financial Management | Finance team" },
+      { name: "Budget Variance — Cross-Site View", how: "Access the BI platform and review budget vs. actual across all sites for the last quarter. Understand the variance pattern — which sites consistently drift, what the causes are, and what has been done about it. Understand what the CBE is expected to report to the client on budget performance.", relevance: null, question: null, source: "BI platform | Site Managers | Finance team" },
+      { name: "Revenue Growth & Upsell Tracking", how: "Review the revenue history of the account — what has grown, what has been added, what has been proposed and rejected. Build or review an existing upsell tracker that maps opportunities by site and service type.", relevance: null, question: null, source: "Key Account Manager | Finance team" },
+      { name: "Depreciation & Credits Reporting", how: "Understand the monthly credits reconciliation and depreciation reporting process at account level — what is produced, when, and who it goes to. Confirm access to the relevant reports and the submission calendar.", relevance: null, question: null, source: "Zester | Finance team" }
+    ]
+  },
+  {
+    id: "cbe_team_hr", title: "Team Development & HR", titleHe: "Team Development & HR", icon: "👥", iconBg: "#EAF0F5",
+    items: [
+      { name: "Site Manager Team — Strengths & Gaps", how: "Meet each Site Manager under the account individually. Understand their tenure, strengths, development areas, and any active performance issues. Map the team against the role requirements and identify where gaps exist.", relevance: null, question: null, source: "Bob HRIS | Direct manager" },
+      { name: "Performance Management — Manager Level", how: "Review the YS performance management framework for how it applies to Site Manager-level roles. Understand the review cycle, what documentation is required, and what the CBE's input is. Review the last performance cycle outcomes for the Site Managers on this account.", relevance: null, question: "When is the next formal review cycle for Site Managers?", source: "Bob HRIS | YS Performance Management guidelines" },
+      { name: "Talent Pipeline & Succession", how: "Understand the current talent situation across all sites — who could be promoted, who is at risk of leaving, and where succession gaps exist. Understand YS's approach to internal mobility and how the CBE supports it.", relevance: null, question: null, source: "Bob HRIS | YS HR guidelines" },
+      { name: "Recruitment for Site Manager Roles", how: "Review the recruitment process for Site Manager positions — how roles are posted, what the selection criteria are, and what the CBE's role is in the process. Understand the current open or at-risk positions.", relevance: null, question: "Are there any open Site Manager positions or roles at risk currently?", source: "Bob HRIS | YS Recruitment SOP" },
+      { name: "Client Offboarding Compliance", how: "Review the client's offboarding KPI — the required timeline for removing departing employees from client systems and recovering assets. Understand the CBE's role in ensuring this is tracked and met across all sites.", relevance: null, question: null, source: "Client SOW §KPIs | Bob HRIS" },
+      { name: "SOP & Guidelines + SOW Presentation", how: "Review the relevant SOPs and guidelines, and receive a presentation of the Statement of Work. Flag any clauses that directly affect your role.", relevance: "The SOW defines what YS has contractually committed to deliver. It is the foundation of every operational decision.", question: null, source: "Account SOW | YS SOP guidelines" },
+      { name: "Yearly Engagement Plan + DEI", how: "Review the annual engagement plan and DEI guidelines. Understand what is expected and what you are accountable for.", relevance: "Building an inclusive, engaged team is an organizational commitment — not a one-off initiative.", question: null, source: "YS Annual Engagement Plan | DEI guidelines" },
+      { name: "HR QA Metrics Review", how: "Review the HR QA metrics relevant to your role — turnover rate, time-to-hire, training completion, and engagement scores.", relevance: "HR metrics are leading indicators of team health. Monitoring them proactively catches problems before they become operational failures.", question: null, source: "Bob HRIS | YS HR QA dashboard" },
+      { name: "Time Key System — User Guide & Explanations", how: "Access Time Key and navigate: clocking in/out, approving timesheets, running labor reports. Understand how time data feeds into payroll and client billing.", relevance: "Accurate time reporting drives labor cost calculations and client invoices. Errors here create billing disputes.", question: null, source: "Time Key user guide" },
+      { name: "NEO — Orientation Day", how: "Attend the full NEO session. Come prepared with questions about YS culture, service values, and the company's direction.", relevance: "The NEO is the first formal exposure to YS's DNA. As a manager, you transmit these values to your team — you need to own them first.", question: null, source: "YS About Us presentation | YS Hospitality Excellence materials" },
+      { name: "Intro to Bob Platform — HRIS", how: "Log in to Bob and navigate: employee profiles, org chart, time off management, and performance module. Confirm you can complete day-to-day people management independently.", relevance: "Bob is the system of record for all people data. Every HR action runs through it — you need to be functional in it from day one.", question: null, source: "Bob HRIS platform | HR onboarding guide" },
+      { name: "HR Toolkit — Agreements, Working Hours, Vacation, Sick Leave, Work Permits, Foreign Employees", how: "Read the HR Toolkit sections relevant to your team composition: employment agreements, working hour regulations, vacation accrual, sick leave, and work permits for non-citizen employees.", relevance: "Understanding employment terms prevents disputes and ensures fair, legally compliant management — especially on sites with diverse workforce compositions.", question: null, source: "YS HR Toolkit | Bob HRIS | Local labor regulations" }
+    ]
+  },
+  {
+    id: "cbe_food_safety", title: "Food Safety & Compliance", titleHe: "Food Safety & Compliance", icon: "🛡️", iconBg: "#EAF5F0",
+    items: [
+      { name: "Food Safety Standards Overview", how: "Review the YS Food Safety Policy and the client's food safety requirements in the Client SOW. Understand what the client scores on health inspections, what the passing threshold is, and where the account currently stands.", relevance: null, question: null, source: "Client SOW §Health & Safety | YS Food Safety Policy" },
+      { name: "Internal Audit — Weekly", how: "Understand the internal audit cadence across all sites — who conducts it, what it covers, and how results are escalated to the CBE. Confirm which sites require a full Internal Audit versus an MK Audit.", relevance: null, question: null, source: "https://yarzinsella-team.monday.com/boards/1539265987" },
+      { name: "SOP Book", how: "Review the relevant SOPs and confirm that all Site Managers have access and are actively working against them.", relevance: null, question: null, source: "https://yarzinsella-team.monday.com/boards/1663714949" },
+      { name: "Documentation Forms", how: "Confirm access to all active food safety documentation forms across the account and understand the reporting flow.", relevance: null, question: null, source: "https://yarzinsella-team.monday.com/boards/1339765862" },
+      { name: "Food Safety Policy", how: "Read the YS Food Safety Policy and confirm it is accessible to all team members across the account.", relevance: null, question: null, source: "https://yarzinsella.sharepoint.com/:b:/r/sites/FoodSafety/Shared%20Documents/Global/YS%20Food%20Safety%20Policy.pdf" },
+      { name: "Health Declaration", how: "Understand the health declaration process across all sites — how it is collected, where it is stored, and how the CBE tracks compliance.", relevance: null, question: null, source: "https://yarzinsella-team.monday.com/boards/1347415707/views/9740925" }
+    ]
+  },
+  {
+    id: "cbe_procurement", title: "Procurement", titleHe: "Procurement", icon: "📦", iconBg: "#F0EAF5",
+    items: [
+      { name: "Procurement System — Zester", how: "Access Zester and review account-level procurement data — understand how food cost is tracked across sites and what reporting is available at the CBE level.", relevance: null, question: null, source: "Zester" },
+      { name: "Approved Vendor Framework", how: "Review the approved vendor list and understand whether the client mandates a closed vendor list. Understand the escalation process when a Site Manager wants to add a new supplier.", relevance: null, question: "Is there a client-mandated closed vendor list for this account?", source: "Client SOW §Supply Chain | Procurement Manager" },
+      { name: "Procurement SOP", how: "Review the YS Procurement SOP — raw material procurement, supplier onboarding, inventory management, and documentation requirements. Understand what is expected of Site Managers and where the CBE is involved.", relevance: null, question: null, source: "YS Procurement SOP" }
+    ]
+  },
+  {
+    id: "cbe_work_safety", title: "Work Safety", titleHe: "Work Safety", icon: "⛑️", iconBg: "#FFF5E5",
+    items: [
+      { name: "Workplace Safety Obligations", how: "Review the YS Work Safety Policy and the applicable local labor regulations for each country where the account operates. Understand the CBE's legal accountability and what the Site Managers are responsible for.", relevance: null, question: "Are there any open workplace safety corrective actions across the account's sites?", source: "YS Work Safety Policy | Local regulatory guidelines" },
+      { name: "Accident & Near-Miss Reporting", how: "Review the last 12 months of workplace incident reports across all sites. Understand what is reported to the CBE, what goes to HR, and what has legal implications.", relevance: null, question: null, source: "YS Work Safety Policy | Bob HRIS" }
+    ]
+  },
+  {
+    id: "cbe_ys_exp", title: "YS Experience", titleHe: "YS Experience", icon: "✨", iconBg: "#F5F0FF",
+    items: [
+      { name: "2025 Client Experience Strategy Approach", how: "Review the YS 2025 Client Experience Strategy with your direct manager.", relevance: null, question: null, source: null },
+      { name: "YS Organizational Structure & HQ Interfaces", how: "Review the YS org chart and understand which HQ functions the CBE interfaces with — Finance, HR, Procurement, Food Safety, Culinary.", relevance: null, question: null, source: null },
+      { name: "Food Program", how: "Review the food program for the account.", relevance: null, question: null, source: null },
+      { name: "Account Handbook", how: "Read the relevant account handbook and understand its structure, update process, and how it should be used by Site Managers across the account.", relevance: null, question: null, source: null },
+      { name: "Hospitality Excellence", how: "Watch the YS Hospitality Excellence Approach LEARN videos.", relevance: null, question: null, source: null },
+      { name: "Hospitality SOPs", how: "Read the Hospitality SOPs.", relevance: null, question: null, source: null },
+      { name: "QA Metrics Review", how: "Review the Experience QA, Best Practices examples and expectations, and WOW moments examples and expectations.", relevance: null, question: null, source: null }
+    ]
+  },
+  {
+    id: "cbe_goals", title: "Goals & QA", titleHe: "Goals & QA", icon: "🎯", iconBg: "#EAEFDF",
+    items: [
+      { name: "Account KPI Baseline", how: "Pull the full KPI history for the account — all sites, all categories, all quarters available. Build a one-page summary that shows the trend, the current score, and the gap to target. Use this as the baseline for all goal-setting.", relevance: null, question: null, source: null },
+      { name: "Quality Audit Framework", how: "Review the quality audit framework across all sites — what types of audits exist, how often they run, and how results are consolidated at the CBE level. Confirm that all sites are on schedule and review the last full cycle of results.", relevance: null, question: null, source: null }
+    ]
+  },
+  {
+    id: "cbe_general", title: "General", titleHe: "General", icon: "🔧", iconBg: "#F0F2F0",
+    items: [
+      { name: "Digital Tools — Monday.com", how: "Complete the Monday orientation board.", relevance: null, question: null, source: null },
+      { name: "Digital Tools — BOB (HRIS)", how: "Complete the BOB orientation.", relevance: null, question: null, source: null },
+      { name: "Digital Tools — BI Platform", how: "Get access to and orientation on the BI Platform.", relevance: null, question: null, source: null },
+      { name: "Digital Tools — Mesh", how: "Get access to and orientation on Mesh.", relevance: null, question: null, source: null },
+      { name: "Quality Audit Process", how: "Review the YS quality audit framework with your direct manager — understand what types of audits are conducted (internal self-audits, external client audits, health inspections), how often, and what the scoring criteria are.", relevance: null, question: null, source: null }
+    ]
+  }
+]
+
+};
+
+let currentRole = 'site_manager';
+let checked = {};
+
+function totalItems() {
+  return roles[currentRole].reduce((sum, s) => sum + s.items.length, 0);
+}
+
+function checkedCount() {
+  const prefix = currentRole + '_';
+  return Object.keys(checked).filter(k => k.startsWith(prefix) && checked[k]).length;
+}
+
+function updateProgress() {
+  const total = totalItems();
+  const done = checkedCount();
+  const pct = total > 0 ? Math.round(done / total * 100) : 0;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressCount').textContent = done + ' / ' + total + ' completed';
+  roles[currentRole].forEach(sec => {
+    const secDone = sec.items.filter((_, i) => checked[currentRole + '_' + sec.id + '_' + i]).length;
+    const pill = document.getElementById('pill_' + sec.id);
+    if (pill) pill.textContent = secDone + ' / ' + sec.items.length;
+  });
+}
+
+function isUrl(str) { return str && (str.startsWith('http://') || str.startsWith('https://')); }
+
+function render() {
+  const container = document.getElementById('mainContent');
+  container.innerHTML = '';
+  roles[currentRole].forEach(sec => {
+    const card = document.createElement('div');
+    card.className = 'section-card';
+    card.id = 'sec_' + sec.id;
+    const secDone = sec.items.filter((_, i) => checked[currentRole + '_' + sec.id + '_' + i]).length;
+    card.innerHTML = `
+      <div class="section-header" onclick="toggleSection('${sec.id}')">
+        <div class="section-header-left">
+          <div class="section-icon" style="background:${sec.iconBg}">${sec.icon}</div>
+          <div>
+            <div class="section-title">${sec.title}</div>
+            <div class="section-meta">${sec.titleHe}</div>
+          </div>
+        </div>
+        <div class="section-right">
+          <span class="section-progress-pill" id="pill_${sec.id}">${secDone} / ${sec.items.length}</span>
+          <span class="chevron">⌄</span>
+        </div>
+      </div>
+      <div class="section-body" id="body_${sec.id}"></div>
+    `;
+    const body = card.querySelector('.section-body');
+    sec.items.forEach((item, i) => {
+      const key = currentRole + '_' + sec.id + '_' + i;
+      const isChecked = checked[key];
+      const row = document.createElement('div');
+      row.className = 'item-row' + (isChecked ? ' checked' : '');
+      row.id = 'row_' + key;
+      const hasDetails = item.how || item.question || item.source || item.relevance;
+      row.innerHTML = `
+        <div class="checkbox-wrap">
+          <input type="checkbox" id="cb_${key}" ${isChecked ? 'checked' : ''} onclick="event.stopPropagation(); toggleCheck('${key}')">
+        </div>
+        <div class="item-content">
+          <div class="item-name">${item.name}</div>
+          ${hasDetails ? `<button class="item-expand-btn" onclick="event.stopPropagation(); toggleDetails('${key}')">
+            <span id="expand_icon_${key}">▶</span> <span id="expand_label_${key}">Show Details</span>
+          </button>` : ''}
+          <div class="item-details" id="details_${key}">
+            ${item.how ? `<div class="detail-block"><div class="detail-label">How to Learn It</div>${item.how}</div>` : ''}
+            ${item.relevance ? `<div class="detail-relevance-block"><div class="detail-label">Why This Matters</div>${item.relevance}</div>` : ''}
+            ${item.question ? `<div class="detail-question-block"><div class="detail-label">Questions to Find Out</div>${item.question}</div>` : ''}
+            ${item.source ? `<div class="detail-block"><div class="detail-label">Source / Document</div>${isUrl(item.source) ? `<a class="detail-link" href="${item.source}" target="_blank">Open Link ↗</a>` : item.source}</div>` : ''}
+          </div>
+        </div>
+      `;
+      body.appendChild(row);
+    });
+    container.appendChild(card);
+  });
+  updateProgress();
+}
+
+function switchRole(role, btn) {
+  currentRole = role;
+  document.querySelectorAll('.role-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  render();
+}
+
+function toggleSection(id) {
+  document.getElementById('sec_' + id).classList.toggle('open');
+}
+
+function toggleCheck(key) {
+  checked[key] = !checked[key];
+  const row = document.getElementById('row_' + key);
+  checked[key] ? row.classList.add('checked') : row.classList.remove('checked');
+  updateProgress();
+}
+
+function toggleDetails(key) {
+  const details = document.getElementById('details_' + key);
+  const icon = document.getElementById('expand_icon_' + key);
+  const label = document.getElementById('expand_label_' + key);
+  const isOpen = details.classList.contains('open');
+  details.classList.toggle('open');
+  icon.textContent = isOpen ? '▶' : '▼';
+  label.textContent = isOpen ? 'Show Details' : 'Hide Details';
+}
+
+render();
+</script>
+</body>
+</html>
