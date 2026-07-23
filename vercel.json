@@ -1,7 +1,7 @@
 {
   "buildCommand": "echo 'Static site - no build needed'",
   "outputDirectory": ".",
-  "framework": "static",
+  "framework": null,
   "public": true,
   "rewrites": [
     {
