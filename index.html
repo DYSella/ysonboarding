@@ -1,0 +1,1778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yarzin Sella | Before You Arrive</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --white:#FDFFFD;
+    --black:#28282B;
+    --stone:#B2BEB5;
+    --mist:#E5E4E2;
+    --green:#AEBF7E;
+    --mustard:#EEA11F;
+    --terracotta:#E26427;
+    --olive:#5A6845;
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+
+  body{
+    background:var(--white);
+    color:var(--black);
+    font-family:'Inter', sans-serif;
+    font-weight:300;
+    overflow-x:hidden;
+  }
+
+  h1,h2,h3,.serif{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:500;
+    letter-spacing:0.01em;
+  }
+
+  img{ display:block; }
+  button{ font:inherit; background:none; border:none; }
+
+  /* ================= reveal system ================= */
+  .inner{
+    max-width:860px;
+    width:100%;
+    opacity:0;
+    transform:translateY(28px);
+    transition:opacity 1.1s ease, transform 1.1s ease;
+  }
+  .inner.visible{ opacity:1; transform:translateY(0); }
+  .inner.wide{ max-width:1100px; }
+
+  .word-stack{ margin-top:38px; display:flex; flex-direction:column; gap:8px; }
+  .line-stack .line{
+    display:inline-block;
+    opacity:0; transform:translateY(10px);
+    transition:opacity 0.7s ease, transform 0.7s ease;
+  }
+  .word-stack span{
+    display:block;
+    max-width:100%;
+    opacity:0; transform:translateY(10px);
+    transition:opacity 0.7s ease, transform 0.7s ease;
+    font-family:'Cormorant Garamond', serif; font-style:italic;
+    font-size:clamp(24px, 3.6vw, 42px);
+    line-height:1.35;
+    color:var(--olive);
+  }
+  .on-dark .word-stack span, .on-image .word-stack span{
+    color:var(--white);
+    text-shadow:0 2px 12px rgba(0,0,0,0.55);
+  }
+  .inner.visible .word-stack span, .inner.visible .line-stack .line{ opacity:1; transform:translateY(0); }
+  .inner.visible .word-stack span:nth-child(1), .inner.visible .line-stack .line:nth-child(1){ transition-delay:0.05s; }
+  .inner.visible .word-stack span:nth-child(2), .inner.visible .line-stack .line:nth-child(2){ transition-delay:0.2s; }
+  .inner.visible .word-stack span:nth-child(3), .inner.visible .line-stack .line:nth-child(3){ transition-delay:0.35s; }
+  .inner.visible .word-stack span:nth-child(4), .inner.visible .line-stack .line:nth-child(4){ transition-delay:0.5s; }
+  .inner.visible .word-stack span:nth-child(5), .inner.visible .line-stack .line:nth-child(5){ transition-delay:0.65s; }
+
+  .stagger-grid > *{
+    opacity:0; transform:translateY(16px);
+    transition:opacity 0.8s ease, transform 0.8s ease;
+  }
+  .inner.visible .stagger-grid > *{ opacity:1; transform:translateY(0); }
+  .inner.visible .stagger-grid > *:nth-child(1){ transition-delay:0.05s; }
+  .inner.visible .stagger-grid > *:nth-child(2){ transition-delay:0.15s; }
+  .inner.visible .stagger-grid > *:nth-child(3){ transition-delay:0.25s; }
+  .inner.visible .stagger-grid > *:nth-child(4){ transition-delay:0.35s; }
+  .inner.visible .stagger-grid > *:nth-child(5){ transition-delay:0.45s; }
+  .inner.visible .stagger-grid > *:nth-child(6){ transition-delay:0.55s; }
+
+  /* ================= generic type ================= */
+  h2{ font-size:clamp(32px, 4.6vw, 56px); line-height:1.18; margin-bottom:28px; }
+  h2 em{ font-style:italic; color:var(--olive); }
+  .on-dark h2 em, .on-image h2 em{ color:var(--green); }
+
+  p.lead{ font-size:21px; line-height:1.7; color:#3f3f42; max-width:660px; }
+  .on-dark p.lead, .on-image p.lead{ color:rgba(253,255,253,0.88); }
+
+  .pull-quote{
+    font-family:'Cormorant Garamond', serif; font-style:italic;
+    font-size:clamp(26px, 3.8vw, 42px);
+    line-height:1.45; max-width:700px; color:var(--white);
+  }
+  .bg-white .pull-quote, .bg-mist .pull-quote{ color:var(--black); }
+
+  .line-stack{ margin-top:26px; font-size:18px; letter-spacing:0.02em; color:#4a4a45; line-height:2; }
+  .on-dark .line-stack, .on-image .line-stack{ color:rgba(253,255,253,0.9); }
+  .line-stack b{ color:var(--black); font-weight:500; }
+  .on-dark .line-stack b, .on-image .line-stack b{ color:var(--white); }
+
+  .bg-white{ background:var(--white); }
+  .bg-mist{ background:var(--mist); }
+  .bg-dark{ background:var(--black); color:var(--white); }
+  .on-dark p, .on-dark li{ color:rgba(253,255,253,0.85); }
+
+  /* ================= section shells ================= */
+  section{ position:relative; width:100%; }
+  .s-center{ min-height:100vh; display:flex; align-items:center; justify-content:center; padding:8vh 8vw; }
+  .s-auto{ padding:14vh 8vw; display:flex; align-items:center; justify-content:center; }
+
+  /* ================= full-bleed photography ================= */
+  .fb{ overflow:hidden; display:flex; }
+  .fb-img{
+    position:absolute; top:-8%; left:0; width:100%; height:116%;
+    background-size:cover; background-position:center;
+    will-change:transform;
+  }
+  .fb-scrim{ position:absolute; inset:0; pointer-events:none; }
+  .fb-scrim.soft{ background:linear-gradient(180deg, rgba(40,40,43,0.35) 0%, rgba(40,40,43,0.15) 40%, rgba(40,40,43,0.55) 100%); }
+  .fb-scrim.strong{ background:linear-gradient(180deg, rgba(40,40,43,0.55) 0%, rgba(40,40,43,0.35) 45%, rgba(40,40,43,0.75) 100%); }
+  .fb-scrim.corner{ background:linear-gradient(0deg, rgba(40,40,43,0.78) 0%, rgba(40,40,43,0.05) 60%); }
+  .fb .inner{ position:relative; z-index:2; }
+  .fb.s-center{ text-align:center; min-height:100vh; }
+
+  /* ---- image band within a merged part (not full 100vh) ---- */
+  .image-band{ position:relative; min-height:68vh; display:flex; align-items:flex-end; justify-content:flex-start; padding:0 8vw 7vh; overflow:hidden; }
+  .image-band .inner{ max-width:740px; text-align:left; }
+
+  /* ================= hero ================= */
+  .hero-section{ background:var(--black); color:var(--white); text-align:center; }
+  .hero-section .eyebrow{ font-size:13px; font-weight:500; letter-spacing:0.3em; text-transform:uppercase; color:var(--white); text-shadow:0 2px 10px rgba(0,0,0,0.55); margin-bottom:30px; }
+  .hero-section h1{ font-size:clamp(42px, 7vw, 86px); line-height:1.12; font-style:italic; color:var(--white); }
+  .scroll-cue{
+    position:absolute; bottom:40px; left:50%; transform:translateX(-50%);
+    width:1px; height:60px; background:linear-gradient(var(--green), transparent); z-index:3;
+  }
+
+  /* ================= manifesto / big type ================= */
+  .manifesto h2{ font-size:clamp(36px, 5.6vw, 66px); }
+  .manifesto{ text-align:left; }
+
+  /* ================= services: banner + cards ================= */
+  .banner-strip{ width:100%; height:44vh; position:relative; overflow:hidden; }
+  .banner-strip .fb-img{ top:-10%; height:120%; }
+  .service-cards{
+    margin-top:50px; display:grid; grid-template-columns:repeat(3, 1fr); gap:36px;
+  }
+  .service-card .thumb{
+    width:100%; aspect-ratio:4/3; border-radius:2px;
+    background-size:cover; background-position:center; margin-bottom:18px;
+  }
+  .service-card h3{ font-size:23px; font-style:italic; margin-bottom:9px; }
+  .service-card p{ font-size:16px; line-height:1.65; color:#4a4a45; }
+
+  /* ================= sticky split ================= */
+  .split-sticky{ display:grid; grid-template-columns:1fr 1fr; min-height:100vh; }
+  .split-image-col{ position:relative; }
+  .split-sticky-inner{
+    position:sticky; top:0; height:100vh; width:100%;
+    background-size:cover; background-position:center;
+  }
+  .split-text-col{
+    background:var(--black); color:var(--white);
+    display:flex; flex-direction:column; justify-content:center;
+    padding:10vh 5vw;
+  }
+  .split-text-col h2{ color:var(--white); }
+  .split-text-col .pull-quote{ color:var(--white); margin-bottom:12px; }
+
+  .difference-grid{ margin-top:40px; display:grid; grid-template-columns:1fr 1fr; gap:36px 40px; }
+  .diff-item h3{ font-size:20px; font-style:italic; margin-bottom:9px; color:var(--white); }
+  .diff-item p{ font-size:16px; line-height:1.65; color:rgba(253,255,253,0.8); }
+
+  /* ================= logo wall ================= */
+  .logo-wall-section{ padding:12vh 8vw; }
+  .logo-strip{ margin-top:44px; display:flex; flex-wrap:wrap; gap:16px; }
+  .logo-slot{
+    width:132px; height:66px; display:flex; align-items:center; justify-content:center;
+    border:1px solid var(--stone); border-radius:4px; background:var(--white); padding:12px;
+  }
+  .logo-slot img{ max-width:100%; max-height:100%; object-fit:contain; }
+
+  /* ================= standard manifesto ================= */
+  .standard-wrap{ position:relative; }
+  .standard-inset{
+    position:absolute; right:8vw; bottom:8vh; width:230px; height:290px;
+    background-size:cover; background-position:center; border-radius:2px;
+    box-shadow:0 20px 50px rgba(0,0,0,0.18);
+    opacity:0; transform:translateY(20px);
+    transition:opacity 1s ease 0.3s, transform 1s ease 0.3s;
+  }
+  .inner.visible + .standard-inset{ opacity:1; transform:translateY(0); }
+
+  /* ================= photo-paired values ================= */
+  .value-cards{ margin-top:48px; display:grid; grid-template-columns:repeat(3, 1fr); gap:32px 36px; }
+  .value-card .thumb{
+    width:100%; aspect-ratio:1/1; border-radius:2px;
+    background-size:cover; background-position:center; margin-bottom:16px;
+  }
+  .value-card h3{ font-size:20px; font-style:italic; margin-bottom:7px; }
+  .value-card p{ font-size:15.5px; line-height:1.6; color:#4a4a45; }
+
+  /* ================= build list ================= */
+  .build-list{ margin-top:42px; display:flex; flex-direction:column; gap:28px; }
+  .build-row{ display:flex; gap:22px; align-items:baseline; border-bottom:1px solid var(--stone); padding-bottom:24px; }
+  .build-row:last-child{ border-bottom:none; }
+  .build-row .num{ font-family:'Cormorant Garamond', serif; font-style:italic; font-size:28px; color:var(--terracotta); min-width:36px; }
+  .build-row h3{ font-size:20px; font-style:italic; margin-bottom:7px; }
+  .build-row p{ font-size:16.5px; line-height:1.65; color:#4a4a45; }
+
+  /* ================= closer ================= */
+  .closer-section{ text-align:center; }
+  .closer-section h2{ font-size:clamp(30px, 4.4vw, 46px); font-style:italic; line-height:1.5; color:var(--white); }
+  .closer-section .mark{ margin-top:42px; font-size:16px; font-weight:500; letter-spacing:0.28em; text-transform:uppercase; color:var(--white); text-shadow:0 2px 10px rgba(0,0,0,0.55); }
+
+  /* =====================================================
+     REFLECTION — recurring editorial interaction module
+     (replaces standalone "Pause & Think" full screens)
+     ===================================================== */
+  .reflection{ position:relative; }
+
+  .reflection-trigger{
+    display:inline-flex; align-items:center; gap:12px;
+    cursor:pointer; text-align:left;
+  }
+  .reflection-badge-icon{
+    width:34px; height:34px; border-radius:50%; flex-shrink:0;
+    border:1px solid var(--olive); color:var(--olive);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .reflection-label{
+    font-size:11px; letter-spacing:0.22em; text-transform:uppercase;
+    color:var(--olive); font-weight:500;
+  }
+  .reflection-plus{
+    width:24px; height:24px; border-radius:50%; flex-shrink:0;
+    border:1px solid var(--olive); color:var(--olive);
+    display:flex; align-items:center; justify-content:center;
+    font-size:15px; line-height:1;
+    transition:transform 0.45s cubic-bezier(0.65,0,0.35,1);
+    animation:reflectionPulse 2.6s ease-in-out infinite;
+  }
+  @keyframes reflectionPulse{ 0%,100%{ transform:scale(1); } 50%{ transform:scale(1.1); } }
+  .reflection.is-open .reflection-plus{ transform:rotate(45deg); animation:none; }
+
+  .reflection-hook{
+    margin-top:18px;
+    font-family:'Cormorant Garamond', serif; font-style:italic;
+    font-size:clamp(20px, 2.5vw, 27px); line-height:1.42;
+  }
+
+  .reflection-cue{
+    margin-top:12px; display:inline-block; font-size:13px; letter-spacing:0.03em; color:#6a6a63;
+    position:relative;
+  }
+  .reflection-cue::after{
+    content:''; position:absolute; left:0; bottom:-3px; width:100%; height:1px; background:currentColor;
+    transform:scaleX(0.25); transform-origin:left; transition:transform 0.5s ease;
+  }
+  .reflection:hover .reflection-cue::after, .reflection.is-open .reflection-cue::after{ transform:scaleX(1); }
+
+  .reflection-body-wrap{
+    display:grid; grid-template-rows:0fr;
+    transition:grid-template-rows 0.6s cubic-bezier(0.65,0,0.35,1);
+  }
+  .reflection.is-open .reflection-body-wrap{ grid-template-rows:1fr; }
+  .reflection-body{ overflow:hidden; min-height:0; }
+  .reflection-body-inner{ padding-top:20px; }
+  .reflection-question{
+    font-family:'Cormorant Garamond', serif; font-style:italic;
+    font-size:clamp(19px, 2.3vw, 25px); color:var(--terracotta);
+  }
+  .reflection-final{ margin-top:12px; font-size:15px; line-height:1.6; color:#54544f; }
+
+  /* ---- variant: floating offset card (breaks over an image edge) ---- */
+  .reflection--floating{
+    background:var(--mist);
+    padding:34px 36px;
+    max-width:400px;
+    box-shadow:0 30px 60px rgba(40,40,43,0.16);
+  }
+
+  /* ---- variant: full-width editorial divider ---- */
+  .reflection--divider{
+    background:var(--olive); color:var(--white);
+    padding:8vh 8vw; display:flex; flex-direction:column; align-items:center; text-align:center;
+  }
+  .reflection--divider .reflection-trigger{ justify-content:center; }
+  .reflection--divider .reflection-badge-icon, .reflection--divider .reflection-plus{
+    border-color:rgba(253,255,253,0.5); color:var(--mustard);
+  }
+  .reflection--divider .reflection-label{ color:var(--green); }
+  .reflection--divider .reflection-hook{ color:var(--white); max-width:660px; }
+  .reflection--divider .reflection-cue{ color:rgba(253,255,253,0.65); }
+  .reflection--divider .reflection-question{ color:var(--mustard); }
+  .reflection--divider .reflection-final{ color:rgba(253,255,253,0.78); max-width:520px; margin-left:auto; margin-right:auto; }
+
+  /* ---- variant: inset panel nested inside a grid ---- */
+  .reflection--inset{
+    grid-column:1 / -1;
+    background:var(--black); color:var(--white);
+    padding:36px 40px; margin:6px 0 4px;
+    display:flex; flex-wrap:wrap; align-items:flex-start; justify-content:space-between; gap:24px;
+  }
+  .reflection--inset .reflection-left{ flex:1 1 320px; }
+  .reflection--inset .reflection-badge-icon, .reflection--inset .reflection-plus{
+    border-color:rgba(253,255,253,0.45); color:var(--mustard);
+  }
+  .reflection--inset .reflection-label{ color:var(--green); }
+  .reflection--inset .reflection-hook{ color:var(--white); }
+  .reflection--inset .reflection-cue{ color:rgba(253,255,253,0.6); }
+  .reflection--inset .reflection-question{ color:var(--mustard); }
+  .reflection--inset .reflection-final{ color:rgba(253,255,253,0.75); }
+  .reflection--inset .reflection-body-wrap{ flex:1 1 280px; }
+
+  @media (max-width:900px){
+    .service-cards{ grid-template-columns:1fr; }
+    .value-cards{ grid-template-columns:1fr 1fr; }
+    .difference-grid{ grid-template-columns:1fr; }
+    .split-sticky{ grid-template-columns:1fr; }
+    .split-sticky-inner{ position:relative; height:50vh; }
+    .standard-inset{ display:none; }
+    .reflection--floating{ position:static !important; max-width:100%; margin-top:24px; }
+    .reflection--inset{ flex-direction:column; }
+  }
+
+  /* ================= language pages / switcher ================= */
+  .lang-page{ display:none; }
+  .lang-page.active{ display:block; }
+
+  .lang-switch{
+    position:fixed; top:22px; right:22px; z-index:60;
+    display:flex; gap:2px;
+    background:rgba(253,255,253,0.92);
+    border:1px solid var(--stone);
+    border-radius:999px;
+    padding:4px;
+    -webkit-backdrop-filter:blur(8px);
+    backdrop-filter:blur(8px);
+    box-shadow:0 10px 30px rgba(40,40,43,0.14);
+  }
+  .lang-btn{
+    padding:8px 15px;
+    font-family:'Inter', sans-serif;
+    font-size:12px; letter-spacing:0.09em; font-weight:500;
+    text-transform:uppercase;
+    color:var(--black);
+    border-radius:999px;
+    cursor:pointer;
+    transition:background 0.3s ease, color 0.3s ease;
+  }
+  .lang-btn:hover{ background:var(--mist); }
+  .lang-btn.active{ background:var(--olive); color:var(--white); }
+
+  @media (max-width:900px){
+    .lang-switch{ top:12px; right:12px; padding:3px; }
+    .lang-btn{ padding:6px 11px; font-size:10.5px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="lang-switch" aria-label="Language selector">
+  <button class="lang-btn active" data-lang="en" type="button">EN</button>
+  <button class="lang-btn" data-lang="ro" type="button">RO</button>
+  <button class="lang-btn" data-lang="pl" type="button">PL</button>
+  <button class="lang-btn" data-lang="uk" type="button">UA</button>
+</nav>
+
+<div class="lang-page active" id="page-en" data-lang="en">
+
+
+<!-- ============ PART 1 — HERO ============ -->
+<section class="hero-section fb s-center on-image">
+  <div class="fb-img" data-parallax style="background-image:url('photo-kitchen-flames.jpg');"></div>
+  <div class="fb-scrim strong"></div>
+  <div class="inner">
+    <div class="eyebrow">Welcome to Yarzin Sella</div>
+    <h1>Every great place<br>begins with <em>an idea.</em></h1>
+  </div>
+  <div class="scroll-cue"></div>
+</section>
+
+<!-- ============ PART 2 — OUR STORY ============ -->
+<section class="s-center bg-white manifesto">
+  <div class="inner">
+    <h2>Not just a place<br>to eat.</h2>
+    <div class="word-stack">
+      <span>A place where people pause.</span>
+      <span>Connect.</span>
+      <span>Recharge.</span>
+      <span>Celebrate.</span>
+      <span>Create.</span>
+    </div>
+  </div>
+</section>
+
+<section class="fb image-band on-image">
+  <div class="fb-img" data-parallax style="background-image:url('photo-plating-noodles.jpg');"></div>
+  <div class="fb-scrim corner"></div>
+  <div class="inner">
+    <p class="lead" style="font-size:17px; max-width:440px; margin-bottom:22px;">Every day, thousands of people walk into the spaces we create. Some arrive rushing between meetings. Others are celebrating a win, catching up with a colleague, or simply taking a well-earned break.</p>
+    <p class="pull-quote">How they feel when they leave—that's what we create.</p>
+  </div>
+</section>
+
+<section class="s-center bg-white">
+  <div class="inner">
+    <p class="lead">What started as a restaurant in 1988 has grown into a global hospitality company operating across Israel, Poland, Ukraine, Croatia, Spain, Germany, France, Romania, and the United States.</p>
+    <div class="line-stack">
+      <span class="line">Different countries.</span><br>
+      <span class="line">Different cultures.</span><br>
+      <span class="line"><b>One uncompromising standard.</b></span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PART 3 — CREATING THE EXPERIENCE (with floating Reflection) ============ -->
+<section class="s-auto bg-white" style="flex-direction:column; padding:0;">
+  <div class="banner-strip">
+    <div class="fb-img" data-parallax style="background-image:url('photo-buffet-window.jpg');"></div>
+  </div>
+
+  <div class="inner wide" style="padding:10vh 8vw 0; position:relative;">
+    <h2>Creating the<br><em>Experience.</em></h2>
+    <p class="lead">Our restaurants are designed for people who return every day. That means every experience has to feel fresh, thoughtful, and worth coming back for. Every workplace is different, so every hospitality solution is tailored to the people, culture, and rhythm of that company.</p>
+
+    <!-- REFLECTION: floating offset card -->
+    <div class="reflection reflection--floating" data-cue-closed="Tap to reveal the thought" data-cue-open="Tap to collapse" style="position:absolute; top:-14vh; right:8vw;">
+      <button class="reflection-trigger" aria-expanded="false">
+        <span class="reflection-badge-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="5" height="18" rx="1.5" fill="currentColor"/><rect x="14" y="3" width="5" height="18" rx="1.5" fill="currentColor"/></svg>
+        </span>
+        <span class="reflection-label">Pause &amp; Think</span>
+        <span class="reflection-plus">+</span>
+      </button>
+      <p class="reflection-hook">A restaurant has one chance to impress a guest.<br>We have hundreds.</p>
+      <span class="reflection-cue">Tap to reveal the thought</span>
+      <div class="reflection-body-wrap">
+        <div class="reflection-body">
+          <div class="reflection-body-inner">
+            <p class="reflection-question">How do you keep every visit feeling special?</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="service-cards stagger-grid">
+      <div class="service-card">
+        <div class="thumb" style="background-image:url('photo-restaurant-interior.jpg');"></div>
+        <h3>In-House Restaurants</h3>
+        <p>Gourmet dining in an intimate, welcoming environment with the quality, craftsmanship, and service of a high-end restaurant.</p>
+      </div>
+      <div class="service-card">
+        <div class="thumb" style="background-image:url('photo-fridge-candid.jpg');"></div>
+        <h3>Micro Kitchens</h3>
+        <p>Thoughtfully curated spaces offering premium coffee, beverages, fresh fruit, healthy snacks, and grab-and-go options throughout the day.</p>
+      </div>
+      <div class="service-card">
+        <div class="thumb" style="background-image:url('photo-event-spread.jpg');"></div>
+        <h3>Events</h3>
+        <p>From everyday moments to large-scale corporate celebrations, every event reflects the same attention to detail and hospitality that defines everything we do.</p>
+      </div>
+    </div>
+  </div>
+  <div style="height:12vh;"></div>
+</section>
+
+<!-- ============ PART 4 — THE DIFFERENCE + TRUSTED BY COMPANIES ============ -->
+<section class="split-sticky">
+  <div class="split-image-col">
+    <div class="split-sticky-inner" data-parallax style="background-image:url('photo-flour-hands.jpg');"></div>
+  </div>
+  <div class="split-text-col">
+    <div class="inner" style="max-width:540px;">
+      <h2>The Yarzin Sella<br><em>Difference.</em></h2>
+      <p class="pull-quote">We don't simply serve meals.<br>We create places people choose.</p>
+
+      <div class="difference-grid stagger-grid">
+        <div class="diff-item">
+          <h3>Winning DNA</h3>
+          <p>Family values.<br>Personal relationships.<br>World-class execution.</p>
+        </div>
+        <div class="diff-item">
+          <h3>Restaurant Heritage</h3>
+          <p>Our roots are in restaurants—not institutional food service. That changes everything.</p>
+        </div>
+        <div class="diff-item">
+          <h3>Hospitality First</h3>
+          <p>Every guest is treated like a guest—not just someone grabbing lunch.</p>
+        </div>
+        <div class="diff-item">
+          <h3>Built for the Long Run</h3>
+          <p>Agile. Humble. Solution-oriented.<br>Because great partnerships are built over years, not transactions.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="logo-wall-section bg-white s-auto" style="flex-direction:column;">
+  <div class="inner" style="text-align:left;">
+    <h2>Trusted by the World's<br>Leading <em>Companies.</em></h2>
+    <p class="lead">The world's most innovative companies trust us with one of the most important parts of their culture— how people experience their day.</p>
+
+    <div class="logo-strip">
+      <div class="logo-slot"><img src="anthropic.png" alt="Anthropic"></div>
+      <div class="logo-slot"><img src="Picture9.png" alt="Google"></div>
+      <div class="logo-slot"><img src="Picture10.png" alt="Meta"></div>
+      <div class="logo-slot"><img src="Picture11.png" alt="Samsung"></div>
+      <div class="logo-slot"><img src="Picture4.png" alt="Apple"></div>
+      <div class="logo-slot"><img src="Picture12.jpg" alt="TikTok"></div>
+      <div class="logo-slot"><img src="Picture6.png" alt="Netflix"></div>
+      <div class="logo-slot"><img src="Picture5.png" alt="Playtika"></div>
+      <div class="logo-slot"><img src="Picture2.png" alt="Plarium"></div>
+      <div class="logo-slot"><img src="Picture3.png" alt="Unity"></div>
+      <div class="logo-slot"><img src="Picture8.png" alt="Datadog"></div>
+      <div class="logo-slot"><img src="blob.png" alt="JFrog"></div>
+      <div class="logo-slot"><img src="fireblocks-logo.png" alt="Fireblocks"></div>
+      <div class="logo-slot"><img src="Picture13.png" alt="monday.com"></div>
+      <div class="logo-slot"><img src="Picture14.png" alt="AppsFlyer"></div>
+    </div>
+
+    <div class="line-stack">
+      <span class="line">Every meal.</span><br>
+      <span class="line">Every interaction.</span><br>
+      <span class="line"><b>Every detail.</b></span>
+    </div>
+  </div>
+</section>
+
+<!-- REFLECTION: full-width editorial divider -->
+<div class="reflection reflection--divider" data-cue-closed="Tap to reveal the thought" data-cue-open="Tap to collapse">
+  <div class="inner" style="max-width:640px;">
+    <button class="reflection-trigger" aria-expanded="false">
+      <span class="reflection-badge-icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="5" height="18" rx="1.5" fill="currentColor"/><rect x="14" y="3" width="5" height="18" rx="1.5" fill="currentColor"/></svg>
+      </span>
+      <span class="reflection-label">Pause &amp; Think</span>
+      <span class="reflection-plus">+</span>
+    </button>
+    <p class="reflection-hook">Imagine eating lunch in the same restaurant...<br>Five days a week. Fifty weeks a year.</p>
+    <span class="reflection-cue">Tap to reveal the thought</span>
+    <div class="reflection-body-wrap">
+      <div class="reflection-body">
+        <div class="reflection-body-inner">
+          <p class="reflection-question">What would make you look forward to coming back tomorrow?</p>
+          <p class="reflection-final">That's the question we ask ourselves every day.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ PART 5 — OUR STANDARD + THE WAY WE WORK (with inset Reflection) ============ -->
+<section class="s-center bg-mist standard-wrap">
+  <div class="inner manifesto">
+    <h2>Our Standard</h2>
+    <p class="pull-quote">Excellence isn't occasional.<br>It's operational.</p>
+
+    <div class="word-stack">
+      <span>No Compromise.</span>
+      <span>Made From Scratch.</span>
+      <span>Taste. Taste Again.</span>
+      <span>Small Batch.</span>
+      <span>Kaizen.</span>
+    </div>
+
+    <p class="lead" style="margin-top:34px;">These aren't slogans. They're the habits behind every recipe, every interaction, and every decision we make. Because people don't come back for average.</p>
+  </div>
+  <div class="standard-inset" style="background-image:url('photo-mise-en-place.jpg');"></div>
+</section>
+
+<section class="s-auto bg-white" style="flex-direction:column;">
+  <div class="inner wide">
+    <h2>The Way We Work</h2>
+    <div class="value-cards stagger-grid">
+      <div class="value-card">
+        <div class="thumb" style="background-image:url('photo-sauce-pour.jpg');"></div>
+        <h3>Passion</h3><p>Care deeply. About ingredients. About craftsmanship. About people.</p>
+      </div>
+      <div class="value-card">
+        <div class="thumb" style="background-image:url('photo-bowls-line.jpg');"></div>
+        <h3>Elite Team</h3><p>High standards. High ownership. High trust. We move fast, support each other, and deliver.</p>
+      </div>
+      <div class="value-card">
+        <div class="thumb" style="background-image:url('photo-pasta-hands.jpg');"></div>
+        <h3>Continuous Learning</h3><p>Stay curious. Every day is another opportunity to improve.</p>
+      </div>
+
+      <!-- REFLECTION: inset panel nested inside the grid -->
+      <div class="reflection reflection--inset" data-cue-closed="Tap to reveal the thought" data-cue-open="Tap to collapse">
+        <div class="reflection-left">
+          <button class="reflection-trigger" aria-expanded="false">
+            <span class="reflection-badge-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="5" height="18" rx="1.5" fill="currentColor"/><rect x="14" y="3" width="5" height="18" rx="1.5" fill="currentColor"/></svg>
+            </span>
+            <span class="reflection-label">Pause &amp; Think</span>
+            <span class="reflection-plus">+</span>
+          </button>
+          <p class="reflection-hook">People may not remember every meal.<br>But they'll always remember how they felt.</p>
+          <span class="reflection-cue">Tap to reveal the thought</span>
+        </div>
+        <div class="reflection-body-wrap">
+          <div class="reflection-body">
+            <div class="reflection-body-inner">
+              <p class="reflection-question">What part of that experience belongs to you?</p>
+              <p class="reflection-final">(Hint: All of it.)</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="value-card">
+        <div class="thumb" style="background-image:url('photo-salad-bowl.jpg');"></div>
+        <h3>Care</h3><p>Hospitality starts with people. Everyone deserves to feel welcome, respected, and seen.</p>
+      </div>
+      <div class="value-card">
+        <div class="thumb" style="background-image:url('photo-fine-plating.jpg');"></div>
+        <h3>Client Centric</h3><p>Every decision starts with one question: how will this make our guest feel?</p>
+      </div>
+      <div class="value-card">
+        <div class="thumb" style="background-image:url('photo-mise-en-place.jpg');"></div>
+        <h3>Sustainability</h3><p>Better ingredients. Smarter sourcing. Less waste. Doing the right thing is simply how we work.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PART 6 — HOSPITALITY IS A MINDSET ============ -->
+<section class="fb s-center on-image">
+  <div class="fb-img" data-parallax style="background-image:url('photo-chef-plating.jpg');"></div>
+  <div class="fb-scrim strong"></div>
+  <div class="inner">
+    <h2>Hospitality Is<br>a <em>Mindset.</em></h2>
+    <p class="lead" style="margin:0 auto;">Hospitality begins long before food reaches the table.</p>
+    <div class="word-stack" style="align-items:center; text-align:center;">
+      <span>It's in the smile.</span>
+      <span>The eye contact.</span>
+      <span>The attention to detail.</span>
+      <span>The willingness to notice what others might miss.</span>
+    </div>
+    <p class="lead" style="margin:30px auto 0;">Whether you're welcoming a guest, helping a colleague, speaking with a supplier, or supporting your manager— the experience starts with you.</p>
+  </div>
+</section>
+
+<!-- ============ PART 7 — GROW HERE ============ -->
+<section class="s-center bg-white">
+  <div class="inner">
+    <h2>Grow Here</h2>
+    <p class="lead">Where do you want to be a year from now?</p>
+    <div class="line-stack">
+      <span class="line">Leading a team?</span><br>
+      <span class="line">Mastering your craft?</span><br>
+      <span class="line">Learning something completely new?</span>
+    </div>
+    <p class="lead" style="margin-top:18px;">We'll help you get there.</p>
+
+    <div class="build-list stagger-grid">
+      <div class="build-row">
+        <div class="num">01</div>
+        <div><h3>Learn</h3><p>Leadership programs. Workshops. Farm visits. Food Talks. Learning designed for real life.</p></div>
+      </div>
+      <div class="build-row">
+        <div class="num">02</div>
+        <div><h3>Own Your Impact</h3><p>Ideas are welcome. Initiative is noticed. Growth is earned.</p></div>
+      </div>
+      <div class="build-row">
+        <div class="num">03</div>
+        <div><h3>Bring Great People</h3><p>Know someone exceptional? Refer them. If they join and stay for three months, you'll receive a referral bonus.</p></div>
+      </div>
+      <div class="build-row">
+        <div class="num">04</div>
+        <div><h3>Belong</h3><p>Celebrations. Community. Volunteering. Recognition. Because people do their best work when they feel they belong.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PART 8 — WELCOME (CLOSER) ============ -->
+<section class="closer-section fb s-center on-image">
+  <div class="fb-img" data-parallax style="background-image:url('photo-event-spread.jpg');"></div>
+  <div class="fb-scrim strong"></div>
+  <div class="inner">
+    <h2>Tomorrow you'll help prepare meals.<br>But that's not really your job.</h2>
+    <p class="pull-quote">Your job is to create a place people look forward to returning to—<br>even if they were there yesterday.</p>
+    <div class="line-stack" style="text-align:center;">
+      <span class="line">Bring your curiosity.</span><br>
+      <span class="line">Bring your ambition.</span><br>
+      <span class="line">Bring your standards.</span><br>
+      <span class="line"><b>We'll bring ours.</b></span>
+    </div>
+    <div class="mark">Welcome to Yarzin Sella</div>
+  </div>
+</section>
+
+
+</div>
+<div class="lang-page" id="page-ro" data-lang="ro">
+
+
+<!-- ============ PART 1 — HERO ============ -->
+<section class="hero-section fb s-center on-image">
+  <div class="fb-img" data-parallax style="background-image:url('photo-kitchen-flames.jpg');"></div>
+  <div class="fb-scrim strong"></div>
+  <div class="inner">
+    <div class="eyebrow">Bine ați venit la Yarzin Sella</div>
+    <h1>Fiecare loc extraordinar<br>începe cu <em>o idee.</em></h1>
+  </div>
+  <div class="scroll-cue"></div>
+</section>
+
+<!-- ============ PART 2 — OUR STORY ============ -->
+<section class="s-center bg-white manifesto">
+  <div class="inner">
+    <h2>Nu doar un loc<br>unde se mănâncă.</h2>
+    <div class="word-stack">
+      <span>Un loc unde oamenii se opresc.</span>
+      <span>Se conectează.</span>
+      <span>Se reîncarcă.</span>
+      <span>Sărbătoresc.</span>
+      <span>Creează.</span>
+    </div>
+  </div>
+</section>
+
+<section class="fb image-band on-image">
+  <div class="fb-img" data-parallax style="background-image:url('photo-plating-noodles.jpg');"></div>
+  <div class="fb-scrim corner"></div>
+  <div class="inner">
+    <p class="lead" style="font-size:17px; max-width:440px; margin-bottom:22px;">În fiecare zi, mii de oameni intră în spațiile pe care le creăm. Unii vin în grabă între ședințe. Alții sărbătoresc o reușită, se pun la curent cu un coleg sau pur și simplu iau o pauză binemeritată.</p>
+    <p class="pull-quote">Cum se simt când pleacă—asta creăm noi.</p>
+  </div>
+</section>
+
+<section class="s-center bg-white">
+  <div class="inner">
+    <p class="lead">Ceea ce a început ca un restaurant în 1988 a devenit o companie globală de ospitalitate, prezentă în Israel, Polonia, Ucraina, Croația, Spania, Germania, Franța, România și Statele Unite.</p>
+    <div class="line-stack">
+      <span class="line">Țări diferite.</span><br>
+      <span class="line">Culturi diferite.</span><br>
+      <span class="line"><b>Un singur standard, fără compromisuri.</b></span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PART 3 — CREATING THE EXPERIENCE (with floating Reflection) ============ -->
+<section class="s-auto bg-white" style="flex-direction:column; padding:0;">
+  <div class="banner-strip">
+    <div class="fb-img" data-parallax style="background-image:url('photo-buffet-window.jpg');"></div>
+  </div>
+
+  <div class="inner wide" style="padding:10vh 8vw 0; position:relative;">
+    <h2>Crearea<br><em>Experienței.</em></h2>
+    <p class="lead">Restaurantele noastre sunt gândite pentru oameni care revin în fiecare zi. Asta înseamnă că fiecare experiență trebuie să fie proaspătă, atent gândită și să merite revenirea. Fiecare loc de muncă este diferit, așa că fiecare soluție de ospitalitate este adaptată oamenilor, culturii și ritmului acelei companii.</p>
+
+    <!-- REFLECTION: floating offset card -->
+    <div class="reflection reflection--floating" data-cue-closed="Atinge pentru a descoperi gândul" data-cue-open="Atinge pentru a închide" style="position:absolute; top:-14vh; right:8vw;">
+      <button class="reflection-trigger" aria-expanded="false">
+        <span class="reflection-badge-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="5" height="18" rx="1.5" fill="currentColor"/><rect x="14" y="3" width="5" height="18" rx="1.5" fill="currentColor"/></svg>
+        </span>
+        <span class="reflection-label">Oprește-te și Gândește-te</span>
+        <span class="reflection-plus">+</span>
+      </button>
+      <p class="reflection-hook">Un restaurant are o singură șansă să impresioneze un client.<br>Noi avem sute.</p>
+      <span class="reflection-cue">Atinge pentru a descoperi gândul</span>
+      <div class="reflection-body-wrap">
+        <div class="reflection-body">
+          <div class="reflection-body-inner">
+            <p class="reflection-question">Cum păstrați fiecare vizită specială?</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="service-cards stagger-grid">
+      <div class="service-card">
+        <div class="thumb" style="background-image:url('photo-restaurant-interior.jpg');"></div>
+        <h3>Restaurante Interne</h3>
+        <p>Experiență culinară rafinată, într-un mediu intim și primitor, cu calitatea, măiestria și serviciul unui restaurant de top.</p>
+      </div>
+      <div class="service-card">
+        <div class="thumb" style="background-image:url('photo-fridge-candid.jpg');"></div>
+        <h3>Micro-Bucătării</h3>
+        <p>Spații atent concepute, care oferă cafea premium, băuturi, fructe proaspete, gustări sănătoase și opțiuni gata de consum pe tot parcursul zilei.</p>
+      </div>
+      <div class="service-card">
+        <div class="thumb" style="background-image:url('photo-event-spread.jpg');"></div>
+        <h3>Evenimente</h3>
+        <p>De la momentele de zi cu zi până la sărbătorile corporative de amploare, fiecare eveniment reflectă aceeași atenție la detalii și ospitalitate care definesc tot ceea ce facem.</p>
+      </div>
+    </div>
+  </div>
+  <div style="height:12vh;"></div>
+</section>
+
+<!-- ============ PART 4 — THE DIFFERENCE + TRUSTED BY COMPANIES ============ -->
+<section class="split-sticky">
+  <div class="split-image-col">
+    <div class="split-sticky-inner" data-parallax style="background-image:url('photo-flour-hands.jpg');"></div>
+  </div>
+  <div class="split-text-col">
+    <div class="inner" style="max-width:540px;">
+      <h2>Diferența<br><em>Yarzin Sella.</em></h2>
+      <p class="pull-quote">Nu doar servim mese.<br>Creăm locuri pe care oamenii le aleg.</p>
+
+      <div class="difference-grid stagger-grid">
+        <div class="diff-item">
+          <h3>ADN Câștigător</h3>
+          <p>Valori de familie.<br>Relații personale.<br>Execuție de talie mondială.</p>
+        </div>
+        <div class="diff-item">
+          <h3>Moștenire de Restaurant</h3>
+          <p>Rădăcinile noastre sunt în restaurante—nu în catering instituțional. Asta schimbă totul.</p>
+        </div>
+        <div class="diff-item">
+          <h3>Ospitalitatea pe Primul Loc</h3>
+          <p>Fiecare client este tratat ca un oaspete—nu doar ca cineva care ia prânzul.</p>
+        </div>
+        <div class="diff-item">
+          <h3>Construit pentru Termen Lung</h3>
+          <p>Agili. Modești. Orientați spre soluții.<br>Pentru că parteneriatele grozave se construiesc în ani, nu în tranzacții.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="logo-wall-section bg-white s-auto" style="flex-direction:column;">
+  <div class="inner" style="text-align:left;">
+    <h2>În Încrederea Celor Mai<br>Importante <em>Companii</em> din Lume.</h2>
+    <p class="lead">Cele mai inovatoare companii din lume ne încredințează una dintre cele mai importante părți ale culturii lor— modul în care oamenii își trăiesc ziua.</p>
+
+    <div class="logo-strip">
+      <div class="logo-slot"><img src="anthropic.png" alt="Anthropic"></div>
+      <div class="logo-slot"><img src="Picture9.png" alt="Google"></div>
+      <div class="logo-slot"><img src="Picture10.png" alt="Meta"></div>
+      <div class="logo-slot"><img src="Picture11.png" alt="Samsung"></div>
+      <div class="logo-slot"><img src="Picture4.png" alt="Apple"></div>
+      <div class="logo-slot"><img src="Picture12.jpg" alt="TikTok"></div>
+      <div class="logo-slot"><img src="Picture6.png" alt="Netflix"></div>
+      <div class="logo-slot"><img src="Picture5.png" alt="Playtika"></div>
+      <div class="logo-slot"><img src="Picture2.png" alt="Plarium"></div>
+      <div class="logo-slot"><img src="Picture3.png" alt="Unity"></div>
+      <div class="logo-slot"><img src="Picture8.png" alt="Datadog"></div>
+      <div class="logo-slot"><img src="blob.png" alt="JFrog"></div>
+      <div class="logo-slot"><img src="fireblocks-logo.png" alt="Fireblocks"></div>
+      <div class="logo-slot"><img src="Picture13.png" alt="monday.com"></div>
+      <div class="logo-slot"><img src="Picture14.png" alt="AppsFlyer"></div>
+    </div>
+
+    <div class="line-stack">
+      <span class="line">Fiecare masă.</span><br>
+      <span class="line">Fiecare interacțiune.</span><br>
+      <span class="line"><b>Fiecare detaliu.</b></span>
+    </div>
+  </div>
+</section>
+
+<!-- REFLECTION: full-width editorial divider -->
+<div class="reflection reflection--divider" data-cue-closed="Atinge pentru a descoperi gândul" data-cue-open="Atinge pentru a închide">
+  <div class="inner" style="max-width:640px;">
+    <button class="reflection-trigger" aria-expanded="false">
+      <span class="reflection-badge-icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="5" height="18" rx="1.5" fill="currentColor"/><rect x="14" y="3" width="5" height="18" rx="1.5" fill="currentColor"/></svg>
+      </span>
+      <span class="reflection-label">Oprește-te și Gândește-te</span>
+      <span class="reflection-plus">+</span>
+    </button>
+    <p class="reflection-hook">Imaginați-vă că luați prânzul în același restaurant...<br>Cinci zile pe săptămână. Cincizeci de săptămâni pe an.</p>
+    <span class="reflection-cue">Atinge pentru a descoperi gândul</span>
+    <div class="reflection-body-wrap">
+      <div class="reflection-body">
+        <div class="reflection-body-inner">
+          <p class="reflection-question">Ce v-ar face să așteptați cu nerăbdare să reveniți mâine?</p>
+          <p class="reflection-final">Aceasta este întrebarea pe care ne-o punem în fiecare zi.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ PART 5 — OUR STANDARD + THE WAY WE WORK (with inset Reflection) ============ -->
+<section class="s-center bg-mist standard-wrap">
+  <div class="inner manifesto">
+    <h2>Standardul Nostru</h2>
+    <p class="pull-quote">Excelența nu este ocazională.<br>Este operațională.</p>
+
+    <div class="word-stack">
+      <span>Fără Compromis.</span>
+      <span>Făcut de la Zero.</span>
+      <span>Gustă. Gustă din nou.</span>
+      <span>Loturi Mici.</span>
+      <span>Kaizen.</span>
+    </div>
+
+    <p class="lead" style="margin-top:34px;">Acestea nu sunt sloganuri. Sunt obiceiurile din spatele fiecărei rețete, fiecărei interacțiuni și fiecărei decizii pe care o luăm. Pentru că oamenii nu revin pentru mediocritate.</p>
+  </div>
+  <div class="standard-inset" style="background-image:url('photo-mise-en-place.jpg');"></div>
+</section>
+
+<section class="s-auto bg-white" style="flex-direction:column;">
+  <div class="inner wide">
+    <h2>Modul Nostru de Lucru</h2>
+    <div class="value-cards stagger-grid">
+      <div class="value-card">
+        <div class="thumb" style="background-image:url('photo-sauce-pour.jpg');"></div>
+        <h3>Pasiune</h3><p>Pasă profund. Despre ingrediente. Despre măiestrie. Despre oameni.</p>
+      </div>
+      <div class="value-card">
+        <div class="thumb" style="background-image:url('photo-bowls-line.jpg');"></div>
+        <h3>Echipă de Elită</h3><p>Standarde înalte. Responsabilitate ridicată. Încredere ridicată. Ne mișcăm rapid, ne susținem reciproc și livrăm.</p>
+      </div>
+      <div class="value-card">
+        <div class="thumb" style="background-image:url('photo-pasta-hands.jpg');"></div>
+        <h3>Învățare Continuă</h3><p>Rămâi curios. Fiecare zi este o nouă oportunitate de a te perfecționa.</p>
+      </div>
+
+      <!-- REFLECTION: inset panel nested inside the grid -->
+      <div class="reflection reflection--inset" data-cue-closed="Atinge pentru a descoperi gândul" data-cue-open="Atinge pentru a închide">
+        <div class="reflection-left">
+          <button class="reflection-trigger" aria-expanded="false">
+            <span class="reflection-badge-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="5" height="18" rx="1.5" fill="currentColor"/><rect x="14" y="3" width="5" height="18" rx="1.5" fill="currentColor"/></svg>
+            </span>
+            <span class="reflection-label">Oprește-te și Gândește-te</span>
+            <span class="reflection-plus">+</span>
+          </button>
+          <p class="reflection-hook">Oamenii pot să nu-și amintească fiecare masă.<br>Dar își vor aminti mereu cum s-au simțit.</p>
+          <span class="reflection-cue">Atinge pentru a descoperi gândul</span>
+        </div>
+        <div class="reflection-body-wrap">
+          <div class="reflection-body">
+            <div class="reflection-body-inner">
+              <p class="reflection-question">Ce parte din acea experiență vă aparține?</p>
+              <p class="reflection-final">(Indiciu: Totul.)</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="value-card">
+        <div class="thumb" style="background-image:url('photo-salad-bowl.jpg');"></div>
+        <h3>Grijă</h3><p>Ospitalitatea începe cu oamenii. Fiecare merită să se simtă binevenit, respectat și văzut.</p>
+      </div>
+      <div class="value-card">
+        <div class="thumb" style="background-image:url('photo-fine-plating.jpg');"></div>
+        <h3>Orientat spre Client</h3><p>Fiecare decizie pornește de la o întrebare: cum se va simți oaspetele nostru?</p>
+      </div>
+      <div class="value-card">
+        <div class="thumb" style="background-image:url('photo-mise-en-place.jpg');"></div>
+        <h3>Sustenabilitate</h3><p>Ingrediente mai bune. Aprovizionare mai inteligentă. Mai puțină risipă. A face lucrul corect este pur și simplu modul nostru de a lucra.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PART 6 — HOSPITALITY IS A MINDSET ============ -->
+<section class="fb s-center on-image">
+  <div class="fb-img" data-parallax style="background-image:url('photo-chef-plating.jpg');"></div>
+  <div class="fb-scrim strong"></div>
+  <div class="inner">
+    <h2>Ospitalitatea Este<br>o <em>Stare de Spirit.</em></h2>
+    <p class="lead" style="margin:0 auto;">Ospitalitatea începe cu mult înainte ca mâncarea să ajungă pe masă.</p>
+    <div class="word-stack" style="align-items:center; text-align:center;">
+      <span>Este în zâmbet.</span>
+      <span>În privire.</span>
+      <span>În atenția la detalii.</span>
+      <span>În dorința de a observa ceea ce alții ar putea rata.</span>
+    </div>
+    <p class="lead" style="margin:30px auto 0;">Fie că întâmpinați un oaspete, ajutați un coleg, vorbiți cu un furnizor sau vă sprijiniți managerul— experiența începe cu dumneavoastră.</p>
+  </div>
+</section>
+
+<!-- ============ PART 7 — GROW HERE ============ -->
+<section class="s-center bg-white">
+  <div class="inner">
+    <h2>Crește Aici</h2>
+    <p class="lead">Unde vreți să fiți peste un an?</p>
+    <div class="line-stack">
+      <span class="line">Conducând o echipă?</span><br>
+      <span class="line">Stăpânindu-vă meseria?</span><br>
+      <span class="line">Învățând ceva complet nou?</span>
+    </div>
+    <p class="lead" style="margin-top:18px;">Vă vom ajuta să ajungeți acolo.</p>
+
+    <div class="build-list stagger-grid">
+      <div class="build-row">
+        <div class="num">01</div>
+        <div><h3>Învață</h3><p>Programe de leadership. Ateliere. Vizite la fermă. Food Talks. Învățare gândită pentru viața reală.</p></div>
+      </div>
+      <div class="build-row">
+        <div class="num">02</div>
+        <div><h3>Asumă-ți Impactul</h3><p>Ideile sunt binevenite. Inițiativa este observată. Creșterea se câștigă.</p></div>
+      </div>
+      <div class="build-row">
+        <div class="num">03</div>
+        <div><h3>Adu Oameni Excepționali</h3><p>Cunoști pe cineva excepțional? Recomandă-l. Dacă se alătură și rămâne trei luni, vei primi un bonus de recomandare.</p></div>
+      </div>
+      <div class="build-row">
+        <div class="num">04</div>
+        <div><h3>Aparține</h3><p>Sărbători. Comunitate. Voluntariat. Recunoaștere. Pentru că oamenii dau tot ce au mai bun atunci când simt că aparțin.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PART 8 — WELCOME (CLOSER) ============ -->
+<section class="closer-section fb s-center on-image">
+  <div class="fb-img" data-parallax style="background-image:url('photo-event-spread.jpg');"></div>
+  <div class="fb-scrim strong"></div>
+  <div class="inner">
+    <h2>Mâine veți ajuta la pregătirea meselor.<br>Dar acesta nu este cu adevărat rolul dumneavoastră.</h2>
+    <p class="pull-quote">Rolul dumneavoastră este să creați un loc în care oamenii abia așteaptă să revină—<br>chiar dacă au fost acolo și ieri.</p>
+    <div class="line-stack" style="text-align:center;">
+      <span class="line">Aduceți-vă curiozitatea.</span><br>
+      <span class="line">Aduceți-vă ambiția.</span><br>
+      <span class="line">Aduceți-vă standardele.</span><br>
+      <span class="line"><b>Noi le vom aduce pe ale noastre.</b></span>
+    </div>
+    <div class="mark">Bine ați venit la Yarzin Sella</div>
+  </div>
+</section>
+
+
+</div>
+<div class="lang-page" id="page-pl" data-lang="pl">
+
+
+<!-- ============ PART 1 — HERO ============ -->
+<section class="hero-section fb s-center on-image">
+  <div class="fb-img" data-parallax style="background-image:url('photo-kitchen-flames.jpg');"></div>
+  <div class="fb-scrim strong"></div>
+  <div class="inner">
+    <div class="eyebrow">Witamy w Yarzin Sella</div>
+    <h1>Każde wyjątkowe miejsce<br>zaczyna się od <em>pomysłu.</em></h1>
+  </div>
+  <div class="scroll-cue"></div>
+</section>
+
+<!-- ============ PART 2 — OUR STORY ============ -->
+<section class="s-center bg-white manifesto">
+  <div class="inner">
+    <h2>Nie tylko miejsce,<br>w którym się je.</h2>
+    <div class="word-stack">
+      <span>Miejsce, w którym ludzie się zatrzymują.</span>
+      <span>Łączą się.</span>
+      <span>Odzyskują energię.</span>
+      <span>Świętują.</span>
+      <span>Tworzą.</span>
+    </div>
+  </div>
+</section>
+
+<section class="fb image-band on-image">
+  <div class="fb-img" data-parallax style="background-image:url('photo-plating-noodles.jpg');"></div>
+  <div class="fb-scrim corner"></div>
+  <div class="inner">
+    <p class="lead" style="font-size:17px; max-width:440px; margin-bottom:22px;">Każdego dnia tysiące ludzi wchodzi do przestrzeni, które tworzymy. Niektórzy przybiegają między spotkaniami. Inni świętują sukces, nadrabiają zaległości z kolegą lub po prostu robią zasłużoną przerwę.</p>
+    <p class="pull-quote">To, jak się czują, gdy wychodzą—właśnie to tworzymy.</p>
+  </div>
+</section>
+
+<section class="s-center bg-white">
+  <div class="inner">
+    <p class="lead">To, co zaczęło się jako restauracja w 1988 roku, wyrosło na globalną firmę hotelarsko-gastronomiczną działającą w Izraelu, Polsce, na Ukrainie, w Chorwacji, Hiszpanii, Niemczech, Francji, Rumunii i Stanach Zjednoczonych.</p>
+    <div class="line-stack">
+      <span class="line">Różne kraje.</span><br>
+      <span class="line">Różne kultury.</span><br>
+      <span class="line"><b>Jeden standard bez kompromisów.</b></span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PART 3 — CREATING THE EXPERIENCE (with floating Reflection) ============ -->
+<section class="s-auto bg-white" style="flex-direction:column; padding:0;">
+  <div class="banner-strip">
+    <div class="fb-img" data-parallax style="background-image:url('photo-buffet-window.jpg');"></div>
+  </div>
+
+  <div class="inner wide" style="padding:10vh 8vw 0; position:relative;">
+    <h2>Tworzenie<br><em>Doświadczenia.</em></h2>
+    <p class="lead">Nasze restauracje są projektowane dla ludzi, którzy wracają każdego dnia. Oznacza to, że każde doświadczenie musi być świeże, przemyślane i warte powrotu. Każde miejsce pracy jest inne, dlatego każde rozwiązanie gastronomiczne dostosowujemy do ludzi, kultury i rytmu danej firmy.</p>
+
+    <!-- REFLECTION: floating offset card -->
+    <div class="reflection reflection--floating" data-cue-closed="Dotknij, by odkryć myśl" data-cue-open="Dotknij, by zwinąć" style="position:absolute; top:-14vh; right:8vw;">
+      <button class="reflection-trigger" aria-expanded="false">
+        <span class="reflection-badge-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="5" height="18" rx="1.5" fill="currentColor"/><rect x="14" y="3" width="5" height="18" rx="1.5" fill="currentColor"/></svg>
+        </span>
+        <span class="reflection-label">Zatrzymaj się i Pomyśl</span>
+        <span class="reflection-plus">+</span>
+      </button>
+      <p class="reflection-hook">Restauracja ma jedną szansę, by zachwycić gościa.<br>My mamy ich setki.</p>
+      <span class="reflection-cue">Dotknij, by odkryć myśl</span>
+      <div class="reflection-body-wrap">
+        <div class="reflection-body">
+          <div class="reflection-body-inner">
+            <p class="reflection-question">Jak sprawić, by każda wizyta była wyjątkowa?</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="service-cards stagger-grid">
+      <div class="service-card">
+        <div class="thumb" style="background-image:url('photo-restaurant-interior.jpg');"></div>
+        <h3>Restauracje Wewnętrzne</h3>
+        <p>Wykwintne posiłki w kameralnej, przyjaznej atmosferze, z jakością, rzemiosłem i obsługą restauracji wysokiej klasy.</p>
+      </div>
+      <div class="service-card">
+        <div class="thumb" style="background-image:url('photo-fridge-candid.jpg');"></div>
+        <h3>Mikro-Kuchnie</h3>
+        <p>Starannie zaprojektowane przestrzenie oferujące kawę premium, napoje, świeże owoce, zdrowe przekąski oraz opcje na wynos przez cały dzień.</p>
+      </div>
+      <div class="service-card">
+        <div class="thumb" style="background-image:url('photo-event-spread.jpg');"></div>
+        <h3>Wydarzenia</h3>
+        <p>Od codziennych chwil po duże firmowe uroczystości— każde wydarzenie odzwierciedla tę samą dbałość o szczegóły i gościnność, które definiują wszystko, co robimy.</p>
+      </div>
+    </div>
+  </div>
+  <div style="height:12vh;"></div>
+</section>
+
+<!-- ============ PART 4 — THE DIFFERENCE + TRUSTED BY COMPANIES ============ -->
+<section class="split-sticky">
+  <div class="split-image-col">
+    <div class="split-sticky-inner" data-parallax style="background-image:url('photo-flour-hands.jpg');"></div>
+  </div>
+  <div class="split-text-col">
+    <div class="inner" style="max-width:540px;">
+      <h2>Różnica<br><em>Yarzin Sella.</em></h2>
+      <p class="pull-quote">Nie po prostu serwujemy posiłki.<br>Tworzymy miejsca, które ludzie wybierają.</p>
+
+      <div class="difference-grid stagger-grid">
+        <div class="diff-item">
+          <h3>Zwycięskie DNA</h3>
+          <p>Wartości rodzinne.<br>Osobiste relacje.<br>Wykonanie na światowym poziomie.</p>
+        </div>
+        <div class="diff-item">
+          <h3>Restauracyjne Dziedzictwo</h3>
+          <p>Nasze korzenie tkwią w restauracjach—nie w gastronomii instytucjonalnej. To zmienia wszystko.</p>
+        </div>
+        <div class="diff-item">
+          <h3>Gościnność Przede Wszystkim</h3>
+          <p>Każdy gość jest traktowany jak gość—a nie ktoś, kto po prostu je lunch.</p>
+        </div>
+        <div class="diff-item">
+          <h3>Zbudowani na Długi Dystans</h3>
+          <p>Elastyczni. Pokorni. Zorientowani na rozwiązania.<br>Bo wielkie partnerstwa buduje się latami, nie transakcjami.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="logo-wall-section bg-white s-auto" style="flex-direction:column;">
+  <div class="inner" style="text-align:left;">
+    <h2>Zaufali Nam Najlepsi<br>na Świecie <em>Firmy.</em></h2>
+    <p class="lead">Najbardziej innowacyjne firmy na świecie powierzają nam jeden z najważniejszych elementów swojej kultury— to, jak ludzie przeżywają swój dzień.</p>
+
+    <div class="logo-strip">
+      <div class="logo-slot"><img src="anthropic.png" alt="Anthropic"></div>
+      <div class="logo-slot"><img src="Picture9.png" alt="Google"></div>
+      <div class="logo-slot"><img src="Picture10.png" alt="Meta"></div>
+      <div class="logo-slot"><img src="Picture11.png" alt="Samsung"></div>
+      <div class="logo-slot"><img src="Picture4.png" alt="Apple"></div>
+      <div class="logo-slot"><img src="Picture12.jpg" alt="TikTok"></div>
+      <div class="logo-slot"><img src="Picture6.png" alt="Netflix"></div>
+      <div class="logo-slot"><img src="Picture5.png" alt="Playtika"></div>
+      <div class="logo-slot"><img src="Picture2.png" alt="Plarium"></div>
+      <div class="logo-slot"><img src="Picture3.png" alt="Unity"></div>
+      <div class="logo-slot"><img src="Picture8.png" alt="Datadog"></div>
+      <div class="logo-slot"><img src="blob.png" alt="JFrog"></div>
+      <div class="logo-slot"><img src="fireblocks-logo.png" alt="Fireblocks"></div>
+      <div class="logo-slot"><img src="Picture13.png" alt="monday.com"></div>
+      <div class="logo-slot"><img src="Picture14.png" alt="AppsFlyer"></div>
+    </div>
+
+    <div class="line-stack">
+      <span class="line">Każdy posiłek.</span><br>
+      <span class="line">Każda interakcja.</span><br>
+      <span class="line"><b>Każdy szczegół.</b></span>
+    </div>
+  </div>
+</section>
+
+<!-- REFLECTION: full-width editorial divider -->
+<div class="reflection reflection--divider" data-cue-closed="Dotknij, by odkryć myśl" data-cue-open="Dotknij, by zwinąć">
+  <div class="inner" style="max-width:640px;">
+    <button class="reflection-trigger" aria-expanded="false">
+      <span class="reflection-badge-icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="5" height="18" rx="1.5" fill="currentColor"/><rect x="14" y="3" width="5" height="18" rx="1.5" fill="currentColor"/></svg>
+      </span>
+      <span class="reflection-label">Zatrzymaj się i Pomyśl</span>
+      <span class="reflection-plus">+</span>
+    </button>
+    <p class="reflection-hook">Wyobraź sobie jedzenie lunchu w tej samej restauracji...<br>Pięć dni w tygodniu. Pięćdziesiąt tygodni w roku.</p>
+    <span class="reflection-cue">Dotknij, by odkryć myśl</span>
+    <div class="reflection-body-wrap">
+      <div class="reflection-body">
+        <div class="reflection-body-inner">
+          <p class="reflection-question">Co sprawiłoby, że nie mógłbyś się doczekać powrotu jutro?</p>
+          <p class="reflection-final">To pytanie zadajemy sobie każdego dnia.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ PART 5 — OUR STANDARD + THE WAY WE WORK (with inset Reflection) ============ -->
+<section class="s-center bg-mist standard-wrap">
+  <div class="inner manifesto">
+    <h2>Nasz Standard</h2>
+    <p class="pull-quote">Doskonałość nie jest okazjonalna.<br>Jest operacyjna.</p>
+
+    <div class="word-stack">
+      <span>Żadnych Kompromisów.</span>
+      <span>Robione od Podstaw.</span>
+      <span>Skosztuj. Skosztuj Ponownie.</span>
+      <span>Małe Partie.</span>
+      <span>Kaizen.</span>
+    </div>
+
+    <p class="lead" style="margin-top:34px;">To nie są hasła. To nawyki stojące za każdym przepisem, każdą interakcją i każdą decyzją, którą podejmujemy. Bo ludzie nie wracają po przeciętność.</p>
+  </div>
+  <div class="standard-inset" style="background-image:url('photo-mise-en-place.jpg');"></div>
+</section>
+
+<section class="s-auto bg-white" style="flex-direction:column;">
+  <div class="inner wide">
+    <h2>Jak Pracujemy</h2>
+    <div class="value-cards stagger-grid">
+      <div class="value-card">
+        <div class="thumb" style="background-image:url('photo-sauce-pour.jpg');"></div>
+        <h3>Pasja</h3><p>Głęboka troska. O składniki. O rzemiosło. O ludzi.</p>
+      </div>
+      <div class="value-card">
+        <div class="thumb" style="background-image:url('photo-bowls-line.jpg');"></div>
+        <h3>Elitarny Zespół</h3><p>Wysokie standardy. Wysoka odpowiedzialność. Wysokie zaufanie. Działamy szybko, wspieramy się nawzajem i dowozimy efekty.</p>
+      </div>
+      <div class="value-card">
+        <div class="thumb" style="background-image:url('photo-pasta-hands.jpg');"></div>
+        <h3>Ciągłe Uczenie Się</h3><p>Zachowaj ciekawość. Każdy dzień to kolejna okazja, by się rozwijać.</p>
+      </div>
+
+      <!-- REFLECTION: inset panel nested inside the grid -->
+      <div class="reflection reflection--inset" data-cue-closed="Dotknij, by odkryć myśl" data-cue-open="Dotknij, by zwinąć">
+        <div class="reflection-left">
+          <button class="reflection-trigger" aria-expanded="false">
+            <span class="reflection-badge-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="5" height="18" rx="1.5" fill="currentColor"/><rect x="14" y="3" width="5" height="18" rx="1.5" fill="currentColor"/></svg>
+            </span>
+            <span class="reflection-label">Zatrzymaj się i Pomyśl</span>
+            <span class="reflection-plus">+</span>
+          </button>
+          <p class="reflection-hook">Ludzie mogą nie pamiętać każdego posiłku.<br>Ale zawsze zapamiętają, jak się czuli.</p>
+          <span class="reflection-cue">Dotknij, by odkryć myśl</span>
+        </div>
+        <div class="reflection-body-wrap">
+          <div class="reflection-body">
+            <div class="reflection-body-inner">
+              <p class="reflection-question">Jaka część tego doświadczenia należy do ciebie?</p>
+              <p class="reflection-final">(Podpowiedź: Całość.)</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="value-card">
+        <div class="thumb" style="background-image:url('photo-salad-bowl.jpg');"></div>
+        <h3>Troska</h3><p>Gościnność zaczyna się od ludzi. Każdy zasługuje na to, by czuć się mile widziany, szanowany i dostrzeżony.</p>
+      </div>
+      <div class="value-card">
+        <div class="thumb" style="background-image:url('photo-fine-plating.jpg');"></div>
+        <h3>Zorientowani na Klienta</h3><p>Każda decyzja zaczyna się od jednego pytania: jak to sprawi, że nasz gość się poczuje?</p>
+      </div>
+      <div class="value-card">
+        <div class="thumb" style="background-image:url('photo-mise-en-place.jpg');"></div>
+        <h3>Zrównoważony Rozwój</h3><p>Lepsze składniki. Mądrzejsze zaopatrzenie. Mniej marnotrawstwa. Robienie tego, co słuszne, to po prostu nasz sposób pracy.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PART 6 — HOSPITALITY IS A MINDSET ============ -->
+<section class="fb s-center on-image">
+  <div class="fb-img" data-parallax style="background-image:url('photo-chef-plating.jpg');"></div>
+  <div class="fb-scrim strong"></div>
+  <div class="inner">
+    <h2>Gościnność to<br><em>Sposób Myślenia.</em></h2>
+    <p class="lead" style="margin:0 auto;">Gościnność zaczyna się na długo, zanim jedzenie trafi na stół.</p>
+    <div class="word-stack" style="align-items:center; text-align:center;">
+      <span>To w uśmiechu.</span>
+      <span>W kontakcie wzrokowym.</span>
+      <span>W dbałości o szczegóły.</span>
+      <span>W gotowości dostrzegania tego, co inni mogą przeoczyć.</span>
+    </div>
+    <p class="lead" style="margin:30px auto 0;">Niezależnie od tego, czy witasz gościa, pomagasz koledze, rozmawiasz z dostawcą, czy wspierasz swojego menedżera— doświadczenie zaczyna się od ciebie.</p>
+  </div>
+</section>
+
+<!-- ============ PART 7 — GROW HERE ============ -->
+<section class="s-center bg-white">
+  <div class="inner">
+    <h2>Rozwijaj Się Tutaj</h2>
+    <p class="lead">Gdzie chcesz być za rok?</p>
+    <div class="line-stack">
+      <span class="line">Prowadząc zespół?</span><br>
+      <span class="line">Doskonaląc swoje rzemiosło?</span><br>
+      <span class="line">Ucząc się czegoś zupełnie nowego?</span>
+    </div>
+    <p class="lead" style="margin-top:18px;">Pomożemy ci tam dotrzeć.</p>
+
+    <div class="build-list stagger-grid">
+      <div class="build-row">
+        <div class="num">01</div>
+        <div><h3>Ucz Się</h3><p>Programy przywódcze. Warsztaty. Wizyty na farmach. Food Talks. Nauka zaprojektowana z myślą o prawdziwym życiu.</p></div>
+      </div>
+      <div class="build-row">
+        <div class="num">02</div>
+        <div><h3>Weź Odpowiedzialność za Swój Wpływ</h3><p>Pomysły są mile widziane. Inicjatywa jest zauważana. Rozwój trzeba sobie wypracować.</p></div>
+      </div>
+      <div class="build-row">
+        <div class="num">03</div>
+        <div><h3>Przyprowadź Wyjątkowych Ludzi</h3><p>Znasz kogoś wyjątkowego? Poleć go. Jeśli dołączy i zostanie przez trzy miesiące, otrzymasz premię za polecenie.</p></div>
+      </div>
+      <div class="build-row">
+        <div class="num">04</div>
+        <div><h3>Przynależność</h3><p>Świętowanie. Wspólnota. Wolontariat. Uznanie. Bo ludzie dają z siebie najwięcej, gdy czują, że przynależą.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PART 8 — WELCOME (CLOSER) ============ -->
+<section class="closer-section fb s-center on-image">
+  <div class="fb-img" data-parallax style="background-image:url('photo-event-spread.jpg');"></div>
+  <div class="fb-scrim strong"></div>
+  <div class="inner">
+    <h2>Jutro pomożesz przygotować posiłki.<br>Ale to tak naprawdę nie jest twoja praca.</h2>
+    <p class="pull-quote">Twoją pracą jest tworzenie miejsca, do którego ludzie nie mogą się doczekać powrotu—<br>nawet jeśli byli tam wczoraj.</p>
+    <div class="line-stack" style="text-align:center;">
+      <span class="line">Przynieś swoją ciekawość.</span><br>
+      <span class="line">Przynieś swoją ambicję.</span><br>
+      <span class="line">Przynieś swoje standardy.</span><br>
+      <span class="line"><b>My przyniesiemy nasze.</b></span>
+    </div>
+    <div class="mark">Witamy w Yarzin Sella</div>
+  </div>
+</section>
+
+
+</div>
+<div class="lang-page" id="page-uk" data-lang="uk">
+
+
+<!-- ============ PART 1 — HERO ============ -->
+<section class="hero-section fb s-center on-image">
+  <div class="fb-img" data-parallax style="background-image:url('photo-kitchen-flames.jpg');"></div>
+  <div class="fb-scrim strong"></div>
+  <div class="inner">
+    <div class="eyebrow">Ласкаво просимо до Yarzin Sella</div>
+    <h1>Кожне чудове місце<br>починається з <em>ідеї.</em></h1>
+  </div>
+  <div class="scroll-cue"></div>
+</section>
+
+<!-- ============ PART 2 — OUR STORY ============ -->
+<section class="s-center bg-white manifesto">
+  <div class="inner">
+    <h2>Не просто місце,<br>де їдять.</h2>
+    <div class="word-stack">
+      <span>Місце, де люди зупиняються.</span>
+      <span>Спілкуються.</span>
+      <span>Відновлюють сили.</span>
+      <span>Святкують.</span>
+      <span>Творять.</span>
+    </div>
+  </div>
+</section>
+
+<section class="fb image-band on-image">
+  <div class="fb-img" data-parallax style="background-image:url('photo-plating-noodles.jpg');"></div>
+  <div class="fb-scrim corner"></div>
+  <div class="inner">
+    <p class="lead" style="font-size:17px; max-width:440px; margin-bottom:22px;">Щодня тисячі людей заходять у простори, які ми створюємо. Дехто поспішає між зустрічами. Інші святкують перемогу, спілкуються з колегою або просто беруть заслужену перерву.</p>
+    <p class="pull-quote">Те, як вони почуваються, коли йдуть—саме це ми і створюємо.</p>
+  </div>
+</section>
+
+<section class="s-center bg-white">
+  <div class="inner">
+    <p class="lead">Те, що починалося як ресторан у 1988 році, виросло у глобальну компанію гостинності, що працює в Ізраїлі, Польщі, Україні, Хорватії, Іспанії, Німеччині, Франції, Румунії та США.</p>
+    <div class="line-stack">
+      <span class="line">Різні країни.</span><br>
+      <span class="line">Різні культури.</span><br>
+      <span class="line"><b>Один бездоганний стандарт.</b></span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PART 3 — CREATING THE EXPERIENCE (with floating Reflection) ============ -->
+<section class="s-auto bg-white" style="flex-direction:column; padding:0;">
+  <div class="banner-strip">
+    <div class="fb-img" data-parallax style="background-image:url('photo-buffet-window.jpg');"></div>
+  </div>
+
+  <div class="inner wide" style="padding:10vh 8vw 0; position:relative;">
+    <h2>Створення<br><em>Досвіду.</em></h2>
+    <p class="lead">Наші ресторани створені для людей, які повертаються щодня. Це означає, що кожен досвід має бути свіжим, продуманим і вартим повернення. Кожне робоче місце унікальне, тому кожне рішення у сфері гостинності адаптоване під людей, культуру та ритм цієї компанії.</p>
+
+    <!-- REFLECTION: floating offset card -->
+    <div class="reflection reflection--floating" data-cue-closed="Торкніться, щоб побачити думку" data-cue-open="Торкніться, щоб згорнути" style="position:absolute; top:-14vh; right:8vw;">
+      <button class="reflection-trigger" aria-expanded="false">
+        <span class="reflection-badge-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="5" height="18" rx="1.5" fill="currentColor"/><rect x="14" y="3" width="5" height="18" rx="1.5" fill="currentColor"/></svg>
+        </span>
+        <span class="reflection-label">Зупинись і Подумай</span>
+        <span class="reflection-plus">+</span>
+      </button>
+      <p class="reflection-hook">У ресторану є лише один шанс справити враження на гостя.<br>У нас — сотні.</p>
+      <span class="reflection-cue">Торкніться, щоб побачити думку</span>
+      <div class="reflection-body-wrap">
+        <div class="reflection-body">
+          <div class="reflection-body-inner">
+            <p class="reflection-question">Як зробити так, щоб кожен візит був особливим?</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="service-cards stagger-grid">
+      <div class="service-card">
+        <div class="thumb" style="background-image:url('photo-restaurant-interior.jpg');"></div>
+        <h3>Внутрішні Ресторани</h3>
+        <p>Вишукана кухня в затишній, гостинній атмосфері з якістю, майстерністю та сервісом ресторану високого класу.</p>
+      </div>
+      <div class="service-card">
+        <div class="thumb" style="background-image:url('photo-fridge-candid.jpg');"></div>
+        <h3>Міні-Кухні</h3>
+        <p>Продумані простори з преміальною кавою, напоями, свіжими фруктами, корисними перекусами та варіантами на винос протягом усього дня.</p>
+      </div>
+      <div class="service-card">
+        <div class="thumb" style="background-image:url('photo-event-spread.jpg');"></div>
+        <h3>Заходи</h3>
+        <p>Від щоденних моментів до масштабних корпоративних святкувань—кожна подія відображає ту саму увагу до деталей і гостинність, що визначає все, що ми робимо.</p>
+      </div>
+    </div>
+  </div>
+  <div style="height:12vh;"></div>
+</section>
+
+<!-- ============ PART 4 — THE DIFFERENCE + TRUSTED BY COMPANIES ============ -->
+<section class="split-sticky">
+  <div class="split-image-col">
+    <div class="split-sticky-inner" data-parallax style="background-image:url('photo-flour-hands.jpg');"></div>
+  </div>
+  <div class="split-text-col">
+    <div class="inner" style="max-width:540px;">
+      <h2>Відмінність<br><em>Yarzin Sella.</em></h2>
+      <p class="pull-quote">Ми не просто подаємо страви.<br>Ми створюємо місця, які люди обирають.</p>
+
+      <div class="difference-grid stagger-grid">
+        <div class="diff-item">
+          <h3>Переможна ДНК</h3>
+          <p>Сімейні цінності.<br>Особисті стосунки.<br>Виконання світового рівня.</p>
+        </div>
+        <div class="diff-item">
+          <h3>Ресторанна Спадщина</h3>
+          <p>Наше коріння—у ресторанах, а не в інституційному харчуванні. Це змінює все.</p>
+        </div>
+        <div class="diff-item">
+          <h3>Гостинність Понад Усе</h3>
+          <p>До кожного гостя ставляться як до гостя, а не як до того, хто просто прийшов пообідати.</p>
+        </div>
+        <div class="diff-item">
+          <h3>Створені для Довгострокової Співпраці</h3>
+          <p>Гнучкі. Скромні. Орієнтовані на рішення.<br>Тому що великі партнерства будуються роками, а не угодами.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="logo-wall-section bg-white s-auto" style="flex-direction:column;">
+  <div class="inner" style="text-align:left;">
+    <h2>Нам Довіряють Провідні<br>Компанії <em>Світу.</em></h2>
+    <p class="lead">Найінноваційніші компанії світу довіряють нам одну з найважливіших частин своєї культури—те, як люди проживають свій день.</p>
+
+    <div class="logo-strip">
+      <div class="logo-slot"><img src="anthropic.png" alt="Anthropic"></div>
+      <div class="logo-slot"><img src="Picture9.png" alt="Google"></div>
+      <div class="logo-slot"><img src="Picture10.png" alt="Meta"></div>
+      <div class="logo-slot"><img src="Picture11.png" alt="Samsung"></div>
+      <div class="logo-slot"><img src="Picture4.png" alt="Apple"></div>
+      <div class="logo-slot"><img src="Picture12.jpg" alt="TikTok"></div>
+      <div class="logo-slot"><img src="Picture6.png" alt="Netflix"></div>
+      <div class="logo-slot"><img src="Picture5.png" alt="Playtika"></div>
+      <div class="logo-slot"><img src="Picture2.png" alt="Plarium"></div>
+      <div class="logo-slot"><img src="Picture3.png" alt="Unity"></div>
+      <div class="logo-slot"><img src="Picture8.png" alt="Datadog"></div>
+      <div class="logo-slot"><img src="blob.png" alt="JFrog"></div>
+      <div class="logo-slot"><img src="fireblocks-logo.png" alt="Fireblocks"></div>
+      <div class="logo-slot"><img src="Picture13.png" alt="monday.com"></div>
+      <div class="logo-slot"><img src="Picture14.png" alt="AppsFlyer"></div>
+    </div>
+
+    <div class="line-stack">
+      <span class="line">Кожна страва.</span><br>
+      <span class="line">Кожна взаємодія.</span><br>
+      <span class="line"><b>Кожна деталь.</b></span>
+    </div>
+  </div>
+</section>
+
+<!-- REFLECTION: full-width editorial divider -->
+<div class="reflection reflection--divider" data-cue-closed="Торкніться, щоб побачити думку" data-cue-open="Торкніться, щоб згорнути">
+  <div class="inner" style="max-width:640px;">
+    <button class="reflection-trigger" aria-expanded="false">
+      <span class="reflection-badge-icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="5" height="18" rx="1.5" fill="currentColor"/><rect x="14" y="3" width="5" height="18" rx="1.5" fill="currentColor"/></svg>
+      </span>
+      <span class="reflection-label">Зупинись і Подумай</span>
+      <span class="reflection-plus">+</span>
+    </button>
+    <p class="reflection-hook">Уявіть, що ви обідаєте в тому самому ресторані...<br>П'ять днів на тиждень. П'ятдесят тижнів на рік.</p>
+    <span class="reflection-cue">Торкніться, щоб побачити думку</span>
+    <div class="reflection-body-wrap">
+      <div class="reflection-body">
+        <div class="reflection-body-inner">
+          <p class="reflection-question">Що змусило б вас з нетерпінням чекати на завтрашнє повернення?</p>
+          <p class="reflection-final">Це питання, яке ми ставимо собі щодня.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ PART 5 — OUR STANDARD + THE WAY WE WORK (with inset Reflection) ============ -->
+<section class="s-center bg-mist standard-wrap">
+  <div class="inner manifesto">
+    <h2>Наш Стандарт</h2>
+    <p class="pull-quote">Досконалість—це не випадковість.<br>Це системна робота.</p>
+
+    <div class="word-stack">
+      <span>Жодних Компромісів.</span>
+      <span>Готуємо з Нуля.</span>
+      <span>Куштуй. Куштуй Знову.</span>
+      <span>Малими Партіями.</span>
+      <span>Кайдзен.</span>
+    </div>
+
+    <p class="lead" style="margin-top:34px;">Це не гасла. Це звички, що стоять за кожним рецептом, кожною взаємодією та кожним рішенням, яке ми ухвалюємо. Тому що люди не повертаються заради посередності.</p>
+  </div>
+  <div class="standard-inset" style="background-image:url('photo-mise-en-place.jpg');"></div>
+</section>
+
+<section class="s-auto bg-white" style="flex-direction:column;">
+  <div class="inner wide">
+    <h2>Як Ми Працюємо</h2>
+    <div class="value-cards stagger-grid">
+      <div class="value-card">
+        <div class="thumb" style="background-image:url('photo-sauce-pour.jpg');"></div>
+        <h3>Пристрасть</h3><p>Глибока турбота. Про інгредієнти. Про майстерність. Про людей.</p>
+      </div>
+      <div class="value-card">
+        <div class="thumb" style="background-image:url('photo-bowls-line.jpg');"></div>
+        <h3>Елітна Команда</h3><p>Високі стандарти. Висока відповідальність. Висока довіра. Ми діємо швидко, підтримуємо одне одного і виконуємо обіцяне.</p>
+      </div>
+      <div class="value-card">
+        <div class="thumb" style="background-image:url('photo-pasta-hands.jpg');"></div>
+        <h3>Постійне Навчання</h3><p>Залишайтеся допитливими. Кожен день—це нова можливість стати кращими.</p>
+      </div>
+
+      <!-- REFLECTION: inset panel nested inside the grid -->
+      <div class="reflection reflection--inset" data-cue-closed="Торкніться, щоб побачити думку" data-cue-open="Торкніться, щоб згорнути">
+        <div class="reflection-left">
+          <button class="reflection-trigger" aria-expanded="false">
+            <span class="reflection-badge-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="5" height="18" rx="1.5" fill="currentColor"/><rect x="14" y="3" width="5" height="18" rx="1.5" fill="currentColor"/></svg>
+            </span>
+            <span class="reflection-label">Зупинись і Подумай</span>
+            <span class="reflection-plus">+</span>
+          </button>
+          <p class="reflection-hook">Люди можуть не пам'ятати кожну страву.<br>Але вони завжди пам'ятатимуть, як почувалися.</p>
+          <span class="reflection-cue">Торкніться, щоб побачити думку</span>
+        </div>
+        <div class="reflection-body-wrap">
+          <div class="reflection-body">
+            <div class="reflection-body-inner">
+              <p class="reflection-question">Яка частина цього досвіду належить вам?</p>
+              <p class="reflection-final">(Підказка: Уся.)</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="value-card">
+        <div class="thumb" style="background-image:url('photo-salad-bowl.jpg');"></div>
+        <h3>Турбота</h3><p>Гостинність починається з людей. Кожен заслуговує почуватися бажаним, шанованим і поміченим.</p>
+      </div>
+      <div class="value-card">
+        <div class="thumb" style="background-image:url('photo-fine-plating.jpg');"></div>
+        <h3>Орієнтовані на Клієнта</h3><p>Кожне рішення починається з одного питання: як це вплине на почуття нашого гостя?</p>
+      </div>
+      <div class="value-card">
+        <div class="thumb" style="background-image:url('photo-mise-en-place.jpg');"></div>
+        <h3>Сталий Розвиток</h3><p>Кращі інгредієнти. Розумніші закупівлі. Менше відходів. Робити правильно—це просто наш спосіб працювати.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PART 6 — HOSPITALITY IS A MINDSET ============ -->
+<section class="fb s-center on-image">
+  <div class="fb-img" data-parallax style="background-image:url('photo-chef-plating.jpg');"></div>
+  <div class="fb-scrim strong"></div>
+  <div class="inner">
+    <h2>Гостинність—це<br><em>Спосіб Мислення.</em></h2>
+    <p class="lead" style="margin:0 auto;">Гостинність починається задовго до того, як їжа потрапляє на стіл.</p>
+    <div class="word-stack" style="align-items:center; text-align:center;">
+      <span>Вона в усмішці.</span>
+      <span>У зоровому контакті.</span>
+      <span>В увазі до деталей.</span>
+      <span>У готовності помітити те, що інші можуть пропустити.</span>
+    </div>
+    <p class="lead" style="margin:30px auto 0;">Чи ви вітаєте гостя, допомагаєте колезі, спілкуєтеся з постачальником, чи підтримуєте свого керівника—досвід починається з вас.</p>
+  </div>
+</section>
+
+<!-- ============ PART 7 — GROW HERE ============ -->
+<section class="s-center bg-white">
+  <div class="inner">
+    <h2>Розвивайтеся Тут</h2>
+    <p class="lead">Де ви хочете бути через рік?</p>
+    <div class="line-stack">
+      <span class="line">Очолювати команду?</span><br>
+      <span class="line">Досконало володіти своєю справою?</span><br>
+      <span class="line">Вчитися чогось абсолютно нового?</span>
+    </div>
+    <p class="lead" style="margin-top:18px;">Ми допоможемо вам туди дістатися.</p>
+
+    <div class="build-list stagger-grid">
+      <div class="build-row">
+        <div class="num">01</div>
+        <div><h3>Навчання</h3><p>Програми лідерства. Воркшопи. Візити на ферми. Food Talks. Навчання, створене для реального життя.</p></div>
+      </div>
+      <div class="build-row">
+        <div class="num">02</div>
+        <div><h3>Візьміть Свій Вплив у Свої Руки</h3><p>Ідеї вітаються. Ініціативу помічають. Зростання треба заслужити.</p></div>
+      </div>
+      <div class="build-row">
+        <div class="num">03</div>
+        <div><h3>Приведіть Чудових Людей</h3><p>Знаєте когось видатного? Порекомендуйте його. Якщо він приєднається і залишиться на три місяці, ви отримаєте бонус за рекомендацію.</p></div>
+      </div>
+      <div class="build-row">
+        <div class="num">04</div>
+        <div><h3>Приналежність</h3><p>Свята. Спільнота. Волонтерство. Визнання. Тому що люди працюють найкраще, коли відчувають, що належать.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PART 8 — WELCOME (CLOSER) ============ -->
+<section class="closer-section fb s-center on-image">
+  <div class="fb-img" data-parallax style="background-image:url('photo-event-spread.jpg');"></div>
+  <div class="fb-scrim strong"></div>
+  <div class="inner">
+    <h2>Завтра ви допомагатимете готувати страви.<br>Але насправді це не ваша робота.</h2>
+    <p class="pull-quote">Ваша робота—створювати місце, куди люди прагнуть повертатися—<br>навіть якщо вони були там учора.</p>
+    <div class="line-stack" style="text-align:center;">
+      <span class="line">Принесіть свою допитливість.</span><br>
+      <span class="line">Принесіть свої амбіції.</span><br>
+      <span class="line">Принесіть свої стандарти.</span><br>
+      <span class="line"><b>Ми принесемо свої.</b></span>
+    </div>
+    <div class="mark">Ласкаво просимо до Yarzin Sella</div>
+  </div>
+</section>
+
+
+</div>
+
+<script>
+  // fade / stagger reveal
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){ e.target.classList.add('visible'); }
+    });
+  }, { threshold:0.2 });
+  document.querySelectorAll('.inner').forEach(el=>io.observe(el));
+
+  // subtle parallax on full-bleed images
+  const parallaxEls = Array.from(document.querySelectorAll('[data-parallax]'));
+  let ticking = false;
+  function updateParallax(){
+    const vh = window.innerHeight;
+    parallaxEls.forEach(el=>{
+      const rect = el.parentElement.getBoundingClientRect();
+      const center = rect.top + rect.height/2;
+      const dist = (center - vh/2) / vh;
+      const shift = Math.max(-1, Math.min(1, dist)) * 26;
+      el.style.transform = 'translateY(' + shift + 'px)';
+    });
+    ticking = false;
+  }
+  window.addEventListener('scroll', ()=>{
+    if(!ticking){ requestAnimationFrame(updateParallax); ticking = true; }
+  }, { passive:true });
+  updateParallax();
+
+  // reflection module: click to expand/collapse (text driven by data attrs,
+  // so each language shows its own translated toggle cue)
+  document.querySelectorAll('.reflection-trigger').forEach(trigger=>{
+    trigger.addEventListener('click', ()=>{
+      const mod = trigger.closest('.reflection');
+      const open = mod.classList.toggle('is-open');
+      trigger.setAttribute('aria-expanded', open ? 'true' : 'false');
+      const cue = mod.querySelector('.reflection-cue');
+      if(cue){
+        cue.textContent = open ? (mod.dataset.cueOpen || 'Tap to collapse')
+                                : (mod.dataset.cueClosed || 'Tap to reveal the thought');
+      }
+    });
+  });
+  // whole hook text is also clickable for a larger hit area
+  document.querySelectorAll('.reflection-hook, .reflection-cue').forEach(el=>{
+    el.style.cursor = 'pointer';
+    el.addEventListener('click', ()=>{
+      el.closest('.reflection').querySelector('.reflection-trigger').click();
+    });
+  });
+
+  // ---------------- language switcher ----------------
+  const langButtons = document.querySelectorAll('.lang-btn');
+  const langPages = document.querySelectorAll('.lang-page');
+
+  function activateLang(lang){
+    langPages.forEach(p=>{ p.classList.toggle('active', p.dataset.lang === lang); });
+    langButtons.forEach(b=>{ b.classList.toggle('active', b.dataset.lang === lang); });
+    window.scrollTo(0, 0);
+
+    // immediately reveal whatever is already in the viewport on the new page
+    // (IntersectionObserver also watches these, but a manual pass avoids any
+    // timing gap right after a display:none -> display:block swap)
+    const activePage = document.getElementById('page-' + lang);
+    if(activePage){
+      const vh = window.innerHeight;
+      activePage.querySelectorAll('.inner').forEach(el=>{
+        const rect = el.getBoundingClientRect();
+        if(rect.top < vh * 0.85){ el.classList.add('visible'); }
+      });
+    }
+    updateParallax();
+  }
+
+  langButtons.forEach(btn=>{
+    btn.addEventListener('click', ()=> activateLang(btn.dataset.lang));
+  });
+</script>
+
+</body>
+</html>
+                                                                                     
